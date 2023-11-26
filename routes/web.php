@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Namacontroller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/kasir', 'kasir.index')->name('kasir');
+Route::view('/login', 'login')->name('login');
+Route::view('/produk', 'produk.index')->name('produk');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/pagess',  [Namacontroller::class, 'index'])->name('page');
