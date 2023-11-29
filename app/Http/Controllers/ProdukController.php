@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\produk;
+use App\Models\Produk;
 use App\Http\Requests\StoreprodukRequest;
 use App\Http\Requests\UpdateprodukRequest;
+use App\Models\Kategori;
 
 class ProdukController extends Controller
 {
@@ -13,7 +14,31 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        //
+        $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
+
+        return view('produk.index', compact('kategori'));
+    }
+
+    public function data()
+    {
+        $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_produk')
+            ->select('produk.*', 'nama_kategori')
+            ->orderBy('produk', 'desc')->get();
+
+        return datatables()
+            ->of($produk)
+            ->addIndexColumn()
+            ->addColumn('kategori', function ($produk) {
+                return $produk->nama_kategori;
+            })
+            ->addColumn('aksi', function ($produk) {
+                return '
+                <button onclick="editForm(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-info btn-flat"> <i class="fa fa-pencil"></i></button>
+                <button onclick="deleteData(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-danger btn-flat"> <i class="fa fa-trash"></i></button>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /**
@@ -29,15 +54,19 @@ class ProdukController extends Controller
      */
     public function store(StoreprodukRequest $request)
     {
-        //
+        $produk = Produk::create($request->all());
+
+        return response()->json('Data berhasil disimpan', 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(produk $produk)
+    public function show($id)
     {
-        //
+        $produk = Produk::find($id);
+
+        return response()->json($produk);
     }
 
     /**
@@ -51,16 +80,22 @@ class ProdukController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateprodukRequest $request, produk $produk)
+    public function update(UpdateprodukRequest $request, $id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $kategori->update($request->all());
+        
+        return response()->json('Data berhasil diubah', 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(produk $produk)
+    public function destroy($id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->delete();
+
+        return response(null, 204);
     }
 }
