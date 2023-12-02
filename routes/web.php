@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\Namacontroller;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +17,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::view('/kasir', 'kasir.index')->name('');
-Route::view('/login', 'login')->name('login');
-Route::view('/produk', 'produk.index')->name('produk');
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/kasir',  [BarangController::class, 'index'])->name('kasir');
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', [AuthController::class, 'index']);
+    Route::post('/', [AuthController::class, 'login']);
+});
+Route::get('/home', function () {
+    return redirect('/admin');
+});
+
+Route::get('/admin', [HomeController::class, 'index']);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
+    Route::resource('/kategori', KategoriController::class);
+
+    Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
+    Route::resource('/produk', ProdukController::class);
+});

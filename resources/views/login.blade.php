@@ -4,9 +4,15 @@
 <head>
 
     <title>$judul</title>
+<<<<<<< HEAD
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
+=======
+    {{--  <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>  --}}
+>>>>>>> 1f23f3291a8e7a53cde95594ea14d21876fd2ded
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
@@ -35,6 +41,7 @@
             <div class="row align-items-center text-center">
                 <div class="col-md-12">
                     <div class="card-body">
+<<<<<<< HEAD
 
                         <h4 class="mb-3 f-w-400">Login</h4>
                         <div class="form-group mb-3">
@@ -48,6 +55,24 @@
 
                         <button class="btn btn-block btn-primary mb-4">Signin</button>
 
+=======
+                        
+
+                        <h4 class="mb-3 f-w-400">Login</h4>
+                        <form action="" method="POST">
+                            @csrf
+                        <div class="form-group mb-3">
+                            <label class="floating-label" for="Email">Email address</label>
+                            <input type="email" class="form-control" id="Email" placeholder="Email" name="email" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="floating-label" for="Password">Password</label>
+                            <input type="password" class="form-control" id="Password" placeholder="Password" name="password" required>
+                        </div>
+                        <button class="btn btn-block btn-primary mb-4">Signin</button>
+                    </form>
+                        
+>>>>>>> 1f23f3291a8e7a53cde95594ea14d21876fd2ded
                     </div>
                 </div>
             </div>

@@ -26,6 +26,5 @@
 
 @section('mainpage')
 <div class="row">
-
 </div>
 @endsection
