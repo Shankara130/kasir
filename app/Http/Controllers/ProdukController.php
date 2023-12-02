@@ -6,6 +6,7 @@ use App\Models\Produk;
 use App\Http\Requests\StoreprodukRequest;
 use App\Http\Requests\UpdateprodukRequest;
 use App\Models\Kategori;
+use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
@@ -22,8 +23,7 @@ class ProdukController extends Controller
     public function data()
     {
         $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_produk')
-            ->select('produk.*', 'nama_kategori')
-            ->orderBy('produk', 'desc')->get();
+            ->select('produk.*', 'nama_kategori');
 
         return datatables()
             ->of($produk)
@@ -52,7 +52,7 @@ class ProdukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreprodukRequest $request)
+    public function store(Request $request)
     {
         $produk = Produk::create($request->all());
 
@@ -80,7 +80,7 @@ class ProdukController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateprodukRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $kategori = Kategori::find($id);
         $kategori->update($request->all());

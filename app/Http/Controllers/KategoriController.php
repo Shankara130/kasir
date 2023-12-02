@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
+use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
@@ -44,7 +45,7 @@ class KategoriController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreKategoriRequest $request)
+    public function store(Request $request)
     {
         $kategori = new Kategori();
         $kategori->nama_kategoti = $request->nama_kategori;
@@ -74,7 +75,7 @@ class KategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKategoriRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $kategori = Kategori::find($id);
         $kategori->nama_kategori = $request->nama_kategori;

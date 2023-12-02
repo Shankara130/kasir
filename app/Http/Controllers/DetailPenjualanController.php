@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailPenjualan;
 use App\Http\Requests\StoreDetailPenjualanRequest;
 use App\Http\Requests\UpdateDetailPenjualanRequest;
+use Illuminate\Http\Request;
 
 class DetailPenjualanController extends Controller
 {
@@ -27,7 +28,7 @@ class DetailPenjualanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDetailPenjualanRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -51,7 +52,7 @@ class DetailPenjualanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDetailPenjualanRequest $request, DetailPenjualan $detailPenjualan)
+    public function update(Request $request, DetailPenjualan $detailPenjualan)
     {
         //
     }

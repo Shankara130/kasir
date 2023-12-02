@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +17,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::middleware(['guest'])->group(function() {
+    Route::get('/', [AuthController::class, 'index']);
+    Route::post('/', [AuthController::class, 'login']);
 });
+Route::get('/home', function() {
+    return redirect('/admin');
+});
+
+Route::get('/admin', [HomeController::class, 'index']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');

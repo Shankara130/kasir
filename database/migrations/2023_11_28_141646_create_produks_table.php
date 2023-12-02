@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('id_kategori');
             $table->string('nama_produk')->unique();
             $table->bigInteger('harga');
+            $table->string('foto_produk')->nullable();
             $table->integer('stok')->default(0);
             $table->integer('diskon')->nullable();
             $table->timestamps();

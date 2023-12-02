@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
@@ -27,7 +28,7 @@ class SettingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSettingRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -51,7 +52,7 @@ class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSettingRequest $request, Setting $setting)
+    public function update(Request $request, Setting $setting)
     {
         //
     }
