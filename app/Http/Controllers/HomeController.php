@@ -12,6 +12,6 @@ class HomeController extends Controller
             'title' => 'Home Page'
         );
 
-        return view('home', $data);
+        return view('kasir.index', $data);
     }
 }

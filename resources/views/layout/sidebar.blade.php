@@ -9,7 +9,7 @@
             </div>
             <div class="collapse" id="nav-user-link">
                 <ul class="list-unstyled">
-                    <li class="list-group-item"><a href="{{route('login')}}"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+                    <li class="list-group-item"><a href=""><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -19,16 +19,16 @@
                 <label>Navigation</label>
             </li>
             <li class="nav-item">
-                <a href="{{route('kasir')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Kasir</span></a>
+                <a href="{{route('admin')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Kasir</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('produk')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Produk</span></a>
+                <a href="{{route('produk.data')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Produk</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('kasir')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Jenis Produk</span></a>
+                <a href="{{route('kategori.data')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Kategori Produk</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('kasir')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
+                <a href="{{route('admin')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
             </li>
 
 

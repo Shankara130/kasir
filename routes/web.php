@@ -23,13 +23,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/', [AuthController::class, 'index']);
-    Route::post('/', [AuthController::class, 'login']);
+    Route::post('/', [AuthController::class, 'login'])->name('login');
 });
 Route::get('/home', function () {
-    return redirect('/admin');
+    return redirect('/admin')->name('admin');
 });
 
-Route::get('/admin', [HomeController::class, 'index']);
+Route::get('/admin', [HomeController::class, 'index'])->name('admin');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
