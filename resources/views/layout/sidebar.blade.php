@@ -25,10 +25,10 @@
                 <a href="{{route('produk')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Produk</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('page')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Jenis Produk</span></a>
+                <a href="{{route('kasir')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Jenis Produk</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('page')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
+                <a href="{{route('kasir')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
             </li>
 
 

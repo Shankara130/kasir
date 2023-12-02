@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\Namacontroller;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/kasir', 'kasir.index')->name('kasir');
+// Route::view('/kasir', 'kasir.index')->name('');
 Route::view('/login', 'login')->name('login');
 Route::view('/produk', 'produk.index')->name('produk');
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/pagess',  [Namacontroller::class, 'index'])->name('page');
+Route::get('/kasir',  [BarangController::class, 'index'])->name('kasir');
