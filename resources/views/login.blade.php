@@ -36,17 +36,21 @@
                 <div class="col-md-12">
                     <div class="card-body">
 
-                        <h4 class="mb-3 f-w-400">Login</h4>
-                        <div class="form-group mb-3">
-                            <label class="floating-label" for="Email">Email address</label>
-                            <input type="text" class="form-control" id="Email" placeholder="">
-                        </div>
-                        <div class="form-group mb-4">
-                            <label class="floating-label" for="Password">Password</label>
-                            <input type="password" class="form-control" id="Password" placeholder="">
-                        </div>
 
-                        <button class="btn btn-block btn-primary mb-4">Signin</button>
+                        <h4 class="mb-3 f-w-400">Login</h4>
+                        <form action="" method="POST">
+                            @csrf
+                            <div class="form-group mb-3">
+                                <label class="floating-label" for="Email">Email address</label>
+                                <input type="email" class="form-control" id="Email" placeholder="Email" name="email" required>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label class="floating-label" for="Password">Password</label>
+                                <input type="password" class="form-control" id="Password" placeholder="Password" name="password" required>
+                            </div>
+                            <button class="btn btn-block btn-primary mb-4">Signin</button>
+                        </form>
+
 
                     </div>
                 </div>
