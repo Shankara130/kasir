@@ -3,7 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
+use App\Models\DetailPenjualan;
+use App\Models\Penjualan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +32,7 @@ Route::get('/home', function () {
     return redirect('/admin')->name('admin');
 });
 
-Route::get('/admin', [HomeController::class, 'index'])->name('admin');
+Route::get('/admin', [PenjualanController::class, 'index'])->name('admin');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
@@ -37,4 +40,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
     Route::resource('/produk', ProdukController::class);
+
+    Route::resource('/transaksi', PenjualanController::class);
 });

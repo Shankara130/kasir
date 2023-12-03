@@ -2,43 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produk;
-use App\Http\Requests\StoreprodukRequest;
-use App\Http\Requests\UpdateprodukRequest;
+use App\Models\produk;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
+    protected $models;
+    public function __construct(produk $models)
+    {
+        $this->models= $models;
+        
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-
-        return view('produk.index', compact('kategori'));
+        $kategori = Kategori::all();//->pluck('nama_kategori', 'id_kategori');
+        $produk = $this->models->all();
+        $data = [
+            'produk'=>'produk'
+        ];
+        return view('produk.index', compact('kategori', 'produk'));
     }
 
     public function data()
     {
-        $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_produk')
-            ->select('produk.*', 'nama_kategori');
-
-        return datatables()
-            ->of($produk)
-            ->addIndexColumn()
-            ->addColumn('kategori', function ($produk) {
-                return $produk->nama_kategori;
-            })
-            ->addColumn('aksi', function ($produk) {
-                return '
-                <button onclick="editForm(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-info btn-flat"> <i class="fa fa-pencil"></i></button>
-                <button onclick="deleteData(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-danger btn-flat"> <i class="fa fa-trash"></i></button>
-                ';
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+        //
     }
 
     /**
@@ -55,8 +46,9 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $produk = Produk::create($request->all());
+        
 
-        return response()->json('Data berhasil disimpan', 200);
+        return redirect('/produk');
     }
 
     /**

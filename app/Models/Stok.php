@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class produk extends Model
+class Stok extends Model
 {
     use HasFactory;
 
-    protected $table = 'produk';
-    protected $primaryKey = 'id_produk';
+    protected $table = 'stok';
+    protected $primaryKey = 'id';
     protected $guarded = [];
-    
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
 }

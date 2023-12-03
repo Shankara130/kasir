@@ -91,17 +91,18 @@
         <div class="col-9">
             <div class="">
                 <div class="row">
+                    @foreach ($produk as $p)
                     <div class="col col-lg-4 col-md-6 col-sm-8">
                         <div class="card shadow mx-2">
                             <div class="card-header" id="namaproduk">
-                                <strong> p</strong> <br>
+                                <strong>{{ $p->nama_produk }}</strong> <br>
                             </div>
                             <div class="card-body">
                                 <img src="assets/images/user/avatar-2.jpg" alt="" class="card-img-top">
                             </div>
                             <div class="card-footer ">
                                 <div class="d-flex justify-content-center mb-2">
-                                    Rp. <div id="harga">10000</div>
+                                    Rp. <div id="harga">{{ format_angka($p->harga) }}</div>
                                 </div>
                                 <div class="d-flex justify-content-center">
                                     <button id="decrease" class="fw-bold btn btn-primary w-25">-</button>
@@ -111,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-
+                    @endforeach
                 </div>
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penjualan;
 use App\Models\DetailPenjualan;
 use App\Models\produk;
+use App\Models\Stok;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
@@ -14,7 +15,12 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        return view('penjualan.index');
+        $produk = produk::latest()->get();
+        $data = array(
+            'title' => 'Home Page'
+        );
+
+        return view('kasir.index', $data, compact('produk'));
     }
 
     /**
@@ -46,6 +52,11 @@ class PenjualanController extends Controller
             $produk = produk::find($item->id_produk);
             $produk->stok -= $item->jumlah;
             $produk->update();
+
+            $stok = Stok::find($item->id_produk);
+            $stok->stok_out += $item->jumlah;
+            $stok->total_stok = $item->stok_in - $stok->stok_out;
+            $stok->update();
         }
 
         return redirect()->route('transaksi.selesai');

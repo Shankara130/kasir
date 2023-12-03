@@ -12,26 +12,26 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    protected $models;
+    public function __construct(Kategori $models)
+    {
+        $this->models= $models;
+        
+    }
+
     public function index()
     {
-        return view('kategori.index');
+        $kategori = $this->models->all();
+        $data = [
+            'kategori'=>'kategori'
+        ];
+        return view('kategori.index', compact('kategori'));
     }
 
     public function data()
     {
-        $kategori = Kategori::orderBy('id_kategori', 'desc')->get();
-
-        return datatables()
-            ->of($kategori)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($kategori) {
-                return '
-                <button onclick="editForm(`'. route('kategori.update', $kategori->id_kategori) .'`)" class="btn btn-xs btn-info btn-flat"> <i class="fa fa-pencil"></i></button>
-                <button onclick="deleteData(`'. route('kategori.update', $kategori->id_kategori) .'`)" class="btn btn-xs btn-danger btn-flat"> <i class="fa fa-trash"></i></button>
-                ';
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+        //
     }
 
     /**
@@ -48,10 +48,10 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $kategori = new Kategori();
-        $kategori->nama_kategoti = $request->nama_kategori;
+        $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
 
-        return response()->json('Data berhasil disimpan', 200);
+        return redirect('/kategori');
     }
 
     /**

@@ -22,13 +22,13 @@
                 <a href="{{route('admin')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Kasir</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('produk.data')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Produk</span></a>
+                <a href="{{route('produk.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-package"></i></span><span class="pcoded-mtext">Produk</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('kategori.data')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Kategori Produk</span></a>
+                <a href="{{route('kategori.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Kategori Produk</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('admin')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
+                <a href="{{route('transaksi.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
             </li>
 
 
