@@ -29,7 +29,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/', [AuthController::class, 'login'])->name('login');
 });
 Route::get('/home', function () {
-    return redirect('/admin')->name('admin');
+    return redirect('/admin');
 });
 
 Route::get('/admin', [PenjualanController::class, 'index'])->name('admin');

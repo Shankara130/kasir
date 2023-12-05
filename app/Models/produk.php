@@ -11,7 +11,12 @@ class produk extends Model
 
     protected $table = 'produk';
     protected $primaryKey = 'id_produk';
-    protected $guarded = [];
+    protected $guarded = ['stok'];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

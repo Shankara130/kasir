@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\produk;
+
 use App\Models\Kategori;
+use App\Models\produk;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -19,12 +20,10 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::all();//->pluck('nama_kategori', 'id_kategori');
+        $kategori = Kategori::all();
         $produk = $this->models->all();
-        $data = [
-            'produk'=>'produk'
-        ];
-        return view('produk.index', compact('kategori', 'produk'));
+    
+    return view('produk.index', compact('kategori', 'produk'));
     }
 
     public function data()
@@ -44,12 +43,26 @@ class ProdukController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $produk = Produk::create($request->all());
-        
+{
+    //try {
+        // Exclude 'id_produk' from the request data
+        $data = $request->except('id_produk');
 
-        return redirect('/produk');
-    }
+        // Attempt to create a new Produk instance
+        $produk = Produk::create($data + ['id_produk' => null]);
+
+        // Log or dd() the created Produk instance to inspect the result
+        //dd($produk);
+
+        // Redirect to the index page after successful creation
+        return redirect('/produk')->with('success', 'Produk created successfully');
+    //} catch (\Exception $e) {
+        // Log or dd() the exception to see what's happening
+       // dd($e->getMessage());
+        // Handle the exception as needed
+        return redirect('/produk')->with('error', 'Failed to create Produk');
+    
+}
 
     /**
      * Display the specified resource.
@@ -88,6 +101,6 @@ class ProdukController extends Controller
         $produk = Produk::find($id);
         $produk->delete();
 
-        return response(null, 204);
+        return redirect('/produk');
     }
 }

@@ -33,7 +33,7 @@
 
 @section('mainpage')
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add">add produk</button>
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add">Tambah Poduk</button>
 <div id="add" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -46,10 +46,6 @@
             <div class="modal-body">
                 <form action="{{ route('produk.store') }}" method="POST">
                     @csrf
-                    <div class="form-group mb-3">
-                        <label class="floating-label" for="id_produk">No</label>
-                        <input type="text" class="form-control" id="id_produk" name="id_produk">
-                    </div>
                     <div class="form-group mb-3">
                         <label for="id_kategori">Kategori Produk</label>
                         <select class="form-control" id="id_kategori" name="id_kategori">
@@ -97,11 +93,14 @@
             @foreach ($produk as $p)
             <tr>
                 <td>{{ $p->id_produk }}</td>
-                <td>{{ $p->id_kategori }}</td>
+                <td>{{ $p->kategori->nama_kategori }}</td>
                 <td>{{ $p->nama_produk }}</td>
                 <td>{{ $p->harga }}</td>
                 <td>{{ $p->stok }}</td>
+                <form action="{{ route('produk.destroy', $p) }}" method="GET">
+                    @csrf
                 <td><button>detail</button></td>
+                </form>
             </tr>
             @endforeach
         </tbody>

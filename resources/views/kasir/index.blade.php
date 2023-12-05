@@ -98,7 +98,11 @@
                                 <strong>{{ $p->nama_produk }}</strong> <br>
                             </div>
                             <div class="card-body">
-                                <img src="assets/images/user/avatar-2.jpg" alt="" class="card-img-top">
+                                @if ($p->foto_produk)
+                                <img src="assets/images/produk/{{ $p->foto_produk }}" alt="" class="card-img-top">
+                                @else
+                                <img src="assets/images/produk/default.png" alt="" class="card-img-top">
+                                @endif
                             </div>
                             <div class="card-footer ">
                                 <div class="d-flex justify-content-center mb-2">
