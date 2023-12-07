@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('produk', function (Blueprint $table) {
-            $table->auto_increment('id_produk')->unsigned();
+            $table->increments('id_produk')->unsigned();
             $table->integer('id_kategori');
             $table->string('nama_produk')->unique();
             $table->bigInteger('harga');

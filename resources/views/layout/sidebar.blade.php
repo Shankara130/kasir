@@ -28,6 +28,9 @@
                 <a href="{{route('kategori.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Kategori Produk</span></a>
             </li>
             <li class="nav-item">
+                <a href="{{route('stok.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Stok Produk</span></a>
+            </li>
+            <li class="nav-item">
                 <a href="{{route('transaksi.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
             </li>
 

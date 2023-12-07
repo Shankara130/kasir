@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\StokController;
 use App\Models\DetailPenjualan;
 use App\Models\Penjualan;
 use Illuminate\Support\Facades\Route;
@@ -42,4 +43,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/produk', ProdukController::class);
 
     Route::resource('/transaksi', PenjualanController::class);
+
+    Route::resource('/stok', StokController::class);
 });

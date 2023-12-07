@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('id_produk');
             $table->integer('stok_in');
-            $table->integer('stok_out');
+            $table->integer('stok_out')->default(0);
             $table->integer('total_stok');
             $table->timestamps();
         });

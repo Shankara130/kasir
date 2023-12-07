@@ -23,7 +23,7 @@
                 </div>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!">Data Produk</a></li>
+                    <li class="breadcrumb-item"><a href="#!">Data Kategori</a></li>
                 </ul>
             </div>
         </div>
@@ -33,34 +33,30 @@
 
 @section('mainpage')
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add">Tambah Poduk</button>
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add">Tambah Stok</button>
 <div id="add" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Produk</h5>
+                <h5 class="modal-title">Tambah Stok</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('produk.store') }}" method="POST">
+                <form action="{{ route('stok.store') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="id_kategori">Kategori Produk</label>
-                        <select class="form-control" id="id_kategori" name="id_kategori">
-                            @foreach ($kategori as $k)
-                            <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
+                        <label for="id_kategori">Stok Produk</label>
+                        <select class="form-control" id="id_produk" name="id_produk">
+                            @foreach ($produk as $p)
+                            <option value="{{ $p->id_produk }}">{{ $p->nama_produk }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group mb-4">
-                        <label class="floating-label" for="nama_Produk">Nama Produk</label>
-                        <input type="text" class="form-control" id="nama_produk" name="nama_produk">
-                    </div>
-                    <div class="form-group mb-5">
-                        <label class="floating-label" for="harga">Harga</label>
-                        <input type="text" class="form-control" id="harga" name="harga">
+                        <label class="floating-label" for="stok_in">Stok Masuk</label>
+                        <input type="text" class="form-control" id="stok_in" name="stok_in">
                     </div>
             </div>
             <div class="modal-footer">
@@ -77,21 +73,21 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Kategori Produk</th>
                 <th>Nama Produk</th>
-                <th>Harga</th>
-                <th>Stok</th>
-                <th>aksi</th>
+                <th>Stok Masuk</th>
+                <th>Stok Keluar</th>
+                <th>Total Stok</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($produk as $p)
+            @foreach ($stok as $s)
             <tr>
-                <td>{{ $p->id_produk }}</td>
-                <td>{{ $p->kategori->nama_kategori }}</td>
-                <td>{{ $p->nama_produk }}</td>
-                <td>{{ $p->harga }}</td>
-                <td>{{ $p->stok_total->total_stok }}</td>
+                <td>{{ $s->id }}</td>
+                <td>{{ $s->produk->nama_produk }}</td>
+                <td>{{ $s->stok_in }}</td>
+                <td>{{ $s->stok_out }}</td>
+                <td>{{ $s->total_stok }}</td>
                 <td><button>detail</button></td>
             </tr>
             @endforeach

@@ -12,4 +12,10 @@ class Stok extends Model
     protected $table = 'stok';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    public function produk()
+    {
+        return $this->belongsTo(produk::class, 'id_produk');
+    }
 }
+

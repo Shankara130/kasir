@@ -17,6 +17,11 @@ class produk extends Model
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
+
+    public function stok_total()
+    {
+        return $this->belongsTo(Stok::class, 'id_produk');
+    }
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
