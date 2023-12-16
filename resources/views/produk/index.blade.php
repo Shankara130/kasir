@@ -91,7 +91,7 @@
                 <td>{{ $p->kategori->nama_kategori }}</td>
                 <td>{{ $p->nama_produk }}</td>
                 <td>{{ $p->harga }}</td>
-                <td>{{ $p->stok_total->total_stok }}</td>
+                <td>{{ optional($p->stok_total)->total_stok }}</td>
                 <td><button>detail</button></td>
             </tr>
             @endforeach
