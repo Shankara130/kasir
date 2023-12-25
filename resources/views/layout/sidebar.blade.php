@@ -2,7 +2,7 @@
     <div class="navbar-content scroll-div ">
         <div class="">
             <div class="main-menu-header">
-                <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
+                <img class="img-radius" src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="User-Profile-Image">
                 <div class="user-details">
                     <div id="more-details">Halo, {$kasir} <i class="fa fa-caret-down"></i></div>
                 </div>
@@ -19,6 +19,9 @@
                 <label>Navigation</label>
             </li>
             <li class="nav-item">
+                <a href="{{route('dashboard')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+            </li>
+            <li class="nav-item">
                 <a href="{{route('admin')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Kasir</span></a>
             </li>
             <li class="nav-item">
@@ -31,7 +34,13 @@
                 <a href="{{route('stok.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Stok Produk</span></a>
             </li>
             <li class="nav-item">
+                <a href="{{route('diskon.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Diskon</span></a>
+            </li>
+            <li class="nav-item">
                 <a href="{{route('transaksi.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
             </li>
 
 

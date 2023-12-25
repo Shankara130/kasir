@@ -5,22 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Penjualan;
 use App\Models\DetailPenjualan;
 use App\Models\produk;
+use App\Models\Setting;
 use App\Models\Stok;
+use App\Models\Diskon;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        $produk = produk::latest()->get();
-        $data = array(
-            'title' => 'Home Page'
-        );
-
-        return view('kasir.index', $data, compact('produk'));
+        $penjualan = Penjualan::all();
+        return view('transaksi.index', compact('penjualan'));
     }
 
     /**
@@ -28,12 +24,20 @@ class PenjualanController extends Controller
      */
     public function create()
     {
-        //
+        $diskon = Diskon::all();
+        $penjualan = new Penjualan();
+        $penjualan->total_item = 0;
+        $penjualan->total_harga = 0;
+        $penjualan->diskon = 0;
+        $penjualan->bayar = 0;
+        $penjualan->id_user = auth()->id();
+        $penjualan->save();
+
+        session(['id_penjualan' => $penjualan->id_penjualan]);
+        return view('/transaksi/cart', compact('diskon'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
         $penjualan = Penjualan::findOrFail($request->id_penjualan);
@@ -41,7 +45,6 @@ class PenjualanController extends Controller
         $penjualan->total_harga = $request->total;
         $penjualan->diskon = $request->diskon;
         $penjualan->bayar = $request->bayar;
-        $penjualan->diterima = $request->diterima;
         $penjualan->update();
 
         $detail = DetailPenjualan::where('id_penjualan', $penjualan->id_penjualan)->get();
@@ -123,5 +126,12 @@ class PenjualanController extends Controller
         $penjualan->delete();
 
         return response(null, 204);
+    }
+
+    public function selesai()
+    {
+        $setting = Setting::first();
+
+        return view('transaksi.selesai', compact('setting'));
     }
 }

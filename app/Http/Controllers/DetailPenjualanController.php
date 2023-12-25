@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailPenjualan;
-use App\Http\Requests\StoreDetailPenjualanRequest;
-use App\Http\Requests\UpdateDetailPenjualanRequest;
+use App\Models\produk;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class DetailPenjualanController extends Controller
@@ -14,7 +14,9 @@ class DetailPenjualanController extends Controller
      */
     public function index()
     {
-        //
+        $produk = produk::orderBy('nama_produk')->get();
+        $diskon = Setting::first()->diskon ?? 0;
+
     }
 
     /**
@@ -30,7 +32,21 @@ class DetailPenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produk = Produk::where('id_produk', $request->id_produk)->first();
+        if (! $produk) {
+            return response()->json('Data gagal disimpan', 400);
+        }
+
+        $detail = new DetailPenjualan();
+        $detail->id_penjualan = $request->id_penjualan;
+        $detail->id_produk = $produk->id_produk;
+        $detail->harga = $produk->harga;
+        $detail->jumlah = 1;
+        $detail->diskon = $produk->diskon;
+        $detail->subtotal = $produk->harga - ($produk->diskon / 100 * $produk->harga);;
+        $detail->save();
+
+        return response()->json('Data berhasil disimpan', 200);
     }
 
     /**
@@ -52,16 +68,38 @@ class DetailPenjualanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DetailPenjualan $detailPenjualan)
+    public function update(Request $request, $id)
     {
-        //
+        $detail = DetailPenjualan::find($id);
+        $detail->jumlah = $request->jumlah;
+        $detail->subtotal = $detail->harga_jual * $request->jumlah - (($detail->diskon * $request->jumlah) / 100 * $detail->harga_jual);;
+        $detail->update();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DetailPenjualan $detailPenjualan)
+    public function destroy($id)
     {
-        //
+        $detail = DetailPenjualan::find($id);
+        $detail->delete();
+
+        return response(null, 204);
+    }
+
+    public function loadForm($diskon = 0, $total = 0, $diterima = 0)
+    {
+        $bayar   = $total - ($diskon / 100 * $total);
+        $kembali = ($diterima != 0) ? $diterima - $bayar : 0;
+        $data    = [
+            'totalrp' => format_angka($total),
+            'bayar' => $bayar,
+            'bayarrp' => format_angka($bayar),
+            'terbilang' => ucwords(terbilang($bayar). ' Rupiah'),
+            'kembalirp' => format_angka($kembali),
+            'kembali_terbilang' => ucwords(terbilang($kembali). ' Rupiah'),
+        ];
+
+        return response()->json($data);
     }
 }

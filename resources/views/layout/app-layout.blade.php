@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>'title'</title>
+@yield('title')
 @yield('sisipancss')
     <!-- Meta -->
     <meta charset="utf-8">
@@ -12,9 +12,9 @@
     <meta name="keywords" content="">
     <meta name="author" content="Phoenixcoded" />
     <!-- Favicon icon -->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <!-- vendor css -->
-    <link rel="stylesheet"   href="assets/css/style.css">
+    <link rel="stylesheet"   href="{{ asset('assets/css/style.css') }}">
 
 
 
@@ -60,17 +60,18 @@
     </div>
     
     <!-- Required Js -->
-    <script src="assets/js/vendor-all.min.js"></script>
-    <script src="assets/js/plugins/bootstrap.min.js"></script>
-    <script src="assets/js/ripple.js"></script>
-    <script src="assets/js/pcoded.min.js"></script>
+    <script src="{{ asset('assets/js/vendor-all.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/ripple.js') }}"></script>
+    <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
     @yield('sisipanjs')
     <!-- Apex Chart -->
-    <script src="assets/js/plugins/apexcharts.min.js"></script>
+    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
 
 
     <!-- custom-chart js -->
-    <script src="assets/js/pages/dashboard-main.js"></script>
+    <script src="{{ asset('assets/js/pages/dashboard-main.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

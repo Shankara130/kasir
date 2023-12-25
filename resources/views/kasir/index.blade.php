@@ -4,17 +4,6 @@
 @endsection
 @section('sisipanjs')
     <script>
-        function format_angka(angka) {
-            angka = Math.abs(parseInt(angka));
-
-            return new Intl.NumberFormat('id-ID').format(angka);
-        }
-    </script>
-
-
-    </script>
-
-    <script>
         const counterElements = document.querySelectorAll(".counter");
         const increaseButtons = document.querySelectorAll(".increase");
         const decreaseButtons = document.querySelectorAll(".decrease");
@@ -28,6 +17,33 @@
             length: counterElements.length
         }, () => 0);
 
+        function addToCart(productId, index) {
+            const quantity = counterValues[index];
+            const url = `{{ route('addproduct.to.cart', ['id' => '__productId__']) }}`.replace('__productId__', productId);
+
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        quantity: quantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Berhasil ditambahkan ke keranjang');
+                    } else {
+                        alert('Gagal menambahkan ke keranjang');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
         function setnamaproduk(index) {
             let namaproduk = getNamaproduks[index].textContent;
             setNamaProduks[index].textContent = namaproduk;
@@ -40,11 +56,9 @@
 
         function showHarga(index) {
             let jml = counterValues[index] + 0;
-            let nominalText = String(hargaElements[index].textContent);
-            let nominal = parseFloat(nominalText.replace(/[^\d.]/g, ''));
+            let nominal = parseInt(hargaElements[index].textContent)
             let hargatotal = nominal * jml;
-            let formattedHarga = format_angka(hargatotal);
-            harga1Elements[index].textContent = formattedHarga;
+            harga1Elements[index].textContent = hargatotal;
         }
 
         function show(index) {
@@ -103,87 +117,54 @@
                         <h5 class="m-b-10">Menu Kasir</h5>
                     </div>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="#!">Menu Kasir</a></li>
+                        <li class="breadcrumb-item"><a href="admin"><i class="feather icon-home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="admin">Menu Kasir</a></li>
                     </ul>
                 </div>
             </div>
+            <div class="row justify-content-end">
+                <a href="{{ route('shopping.cart') }}" class="btn btn-outline-light">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Keranjang <span
+                        class="badge bg-danger">{{ count((array) session('cart')) }}</span>
+                </a>
+            </div>
         </div>
+    </div>
+    <div class="container mt-4">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
     </div>
 @endsection
 
 @section('mainpage')
     <div class="row">
-        <div class="col-lg-9">
-            <div class="col-9">
-                <div class="">
-                    <div class="row">
-                        @foreach ($produk as $index => $p)
-                            <div class="col col-lg-4 col-md-6 col-sm-8">
-                                <div class="card shadow mx-2">
-                                    <div class="card-header namaproduk">
-                                        <strong>{{ $p->nama_produk }}</strong> <br>
-                                    </div>
-                                    <div class="card-body">
-                                        @if ($p->foto_produk)
-                                            <img src="assets/images/produk/{{ $p->foto_produk }}" alt=""
-                                                class="card-img-top">
-                                        @else
-                                            <img src="assets/images/produk/default.png" alt="" class="card-img-top">
-                                        @endif
-                                    </div>
-                                    <div class="card-footer ">
-                                        <div class="d-flex justify-content-center mb-2">
-                                            Rp. <div class="harga">{{ format_angka($p->harga) }}</div>
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-                                            <button class="fw-bold btn btn-primary w-25 decrease">-</button>
-                                            <span class="mx-2 counter">0</span>
-                                            <button class="fw-bold btn btn-primary w-25 increase"
-                                                onclick="show({{ $index }})">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+        @foreach ($produk as $index => $produk)
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card">
+                    @if ($produk->foto_produk)
+                        <img src="{{ asset('/storage/assets/images/produk/' . $produk->foto_produk) }}" alt="">
+                    @else
+                        <img src="{{ asset('assets/images/produk/default.png') }}" alt="">
+                    @endif
+                    <div class="card-body">
+                        <h4 class="card-title">{{ $produk->nama_produk }}</h4>
+                        <p class="card-text"><strong>Harga: </strong> Rp. {{ format_angka($produk->harga) }}</p>
+                        <div class="d-flex justify-content-center">
+                            <button class="fw-bold btn btn-primary w-25 decrease">-</button>
+                            <span class="mx-2 counter">0</span>
+                            <button class="fw-bold btn btn-primary w-25 increase"">+</button>
+                        </div> <br>
+                        <div class="d-flex justify-content-center">
+                            <p class="btn-holder"><a href="{{ route('addproduct.to.cart', $produk->id_produk) }}"
+                                    class="btn btn-outline-danger">Tambahkan ke keranjang</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h4 class="text">Pesanan</h4>
-                </div>
-                <div class="card-body">
-                    <form>
-                        @foreach ($produk as $index => $p)
-                            <div class="row my-2">
-                                <div class="col">
-                                    <div class="card-body shadow d-none showMenu" role="">
-                                        <button type="button" class="close reset" aria-label="Close"
-                                            onclick="resetCounter({{ $index }})"><span
-                                                aria-hidden="true">×</span></button>
-                                        <div class="setnamaproduk">
-                                            <strong>{{ $p->nama_produk }}</strong>
-                                        </div>
-                                        <small><span class="mx-2 counter1"></span></small>
-                                        <small><span class="mx-2 harga1">{{ format_angka($p->harga) }}</span></small>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                        <div class="row my-2 mx-2">
-                            <div class="d-flex flex justify-content-between">
-                                <h6>
-                                    Total : <span class="text-end total"> Total</span>
-                                </h6>
-                            </div>
-                        </div>
-                        <button class="fw-bold btn rounded-pill btn-outline-primary w-100">Order</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 @endsection

@@ -9,8 +9,8 @@ class Penjualan extends Model
 {
     use HasFactory;
 
-    protected $table = 'detail_penjualan';
-    protected $primaryKey = 'id_detail_penjualan';
+    protected $table = 'penjualan';
+    protected $primaryKey = 'id_penjualan';
     protected $guarded = [];
 
     const CREATED_AT = 'created_at';

@@ -13,25 +13,28 @@ class KategoriController extends Controller
      * Display a listing of the resource.
      */
 
-    protected $models;
-    public function __construct(Kategori $models)
-    {
-        $this->models= $models;
-        
-    }
-
     public function index()
     {
-        $kategori = $this->models->all();
-        $data = [
-            'kategori'=>'kategori'
-        ];
-        return view('kategori.index', compact('kategori'));
+        return view('kategori.index');
     }
 
     public function data()
     {
-        //
+        $kategori = Kategori::orderBy('id_kategori', 'desc')->get();
+
+        return datatables()
+            ->of($kategori)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($kategori) {
+                return '
+                <div class="btn-group">
+                    <button onclick="editForm(`'. route('kategori.update', $kategori->id_kategori) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>
+                    <button onclick="deleteData(`'. route('kategori.destroy', $kategori->id_kategori) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                </div>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /**
@@ -51,7 +54,7 @@ class KategoriController extends Controller
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
 
-        return redirect('/kategori');
+        return response()->json('Data berhasil disimpan', 200);
     }
 
     /**
