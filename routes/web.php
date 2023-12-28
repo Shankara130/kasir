@@ -45,7 +45,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
     Route::resource('/kategori', KategoriController::class);
 
-    Route::get('/shopping-cart', [ProdukController::class, 'productCart'])->name('shopping.cart');
     Route::get('/produk/{id}', [ProdukController::class, 'addProducttoCart'])->name('addproduct.to.cart');
     Route::patch('/update-shopping-cart', [ProdukController::class, 'updateCart'])->name('update.shopping.cart');
     Route::delete('/delete-cart-product', [ProdukController::class, 'deleteProduct'])->name('delete.cart.product');
@@ -54,9 +53,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/produk/delete-selected', [ProdukController::class, 'deleteSelected'])->name('produk.delete_selected');
     Route::resource('/produk', ProdukController::class);
 
-    Route::get('/transaksi/baru', [PenjualanController::class, 'create'])->name('transaksi.baru');
+    Route::get('/transaksi/cart', [PenjualanController::class, 'create'])->name('transaksi.cart');
     Route::post('/transaksi/store', [PenjualanController::class, 'store'])->name('transaksi.store');
     Route::get('/transaksi/selesai', [PenjualanController::class, 'selesai'])->name('transaksi.selesai');
+    Route::get('/transaksi/nota', [PenjualanController::class,'nota'])->name('transaksi.nota');
 
     Route::get('/transaksi', [PenjualanController::class, 'index'])->name('transaksi.data');
     Route::resource('/transaksi', DetailPenjualanController::class)

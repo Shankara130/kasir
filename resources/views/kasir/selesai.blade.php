@@ -15,6 +15,10 @@
                     Data Transaksi telah selesai.
                 </div>
             </div>
+            <div class="box-footer">
+                <button class="btn btn-warning btn-flat" onclick="nota('{{ route('transaksi.nota') }}')">Cetak Ulang Nota</button>
+                <a href="{{ route('admin') }}">Transaksi Baru</a>
+            </div>
         </div>
     </div>
 </div>

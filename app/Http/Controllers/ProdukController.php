@@ -19,13 +19,6 @@ class ProdukController extends Controller
         return view('produk.index', compact('kategori'));
     }
 
-    public function productCart()
-    {
-        $diskon = Diskon::all();
-
-        return view('kasir.cart', compact('diskon'));
-    }
-
     public function addProducttoCart(Request $request, $id)
     {
         $produk = Produk::findOrFail($id);
@@ -70,9 +63,8 @@ class ProdukController extends Controller
 
     public function data()
     {
-        $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
+        $produk = produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
             ->select('produk.*', 'nama_kategori')
-            // ->orderBy('kode_produk', 'asc')
             ->get();
 
         return datatables()
@@ -84,7 +76,7 @@ class ProdukController extends Controller
                 ';
             })
             ->addColumn('harga', function ($produk) {
-                return format_angka($produk->harga_jual);
+                return format_angka($produk->harga);
             })
             ->addColumn('stok', function ($produk) {
                 return format_angka($produk->stok);

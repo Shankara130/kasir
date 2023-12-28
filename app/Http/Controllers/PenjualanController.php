@@ -15,8 +15,44 @@ class PenjualanController extends Controller
     
     public function index()
     {
-        $penjualan = Penjualan::all();
-        return view('transaksi.index', compact('penjualan'));
+        return view('penjualan.index');
+    }
+
+    public function data()
+    {
+        $penjualan = Penjualan::orderBy('id_penjualan', 'desc')->get();
+
+        return datatables()
+            ->of($penjualan)
+            ->addIndexColumn()
+            ->addColumn('total_item', function ($penjualan) {
+                return format_angka($penjualan->total_item);
+            })
+            ->addColumn('total_harga', function ($penjualan) {
+                return 'Rp. '. format_angka($penjualan->total_harga);
+            })
+            ->addColumn('bayar', function ($penjualan) {
+                return 'Rp. '. format_angka($penjualan->bayar);
+            })
+            ->addColumn('tanggal', function ($penjualan) {
+                return tanggal($penjualan->created_at, false);
+            })
+            ->editColumn('diskon', function ($penjualan) {
+                return $penjualan->diskon . '%';
+            })
+            ->editColumn('kasir', function ($penjualan) {
+                return $penjualan->user->name ?? '';
+            })
+            ->addColumn('aksi', function ($penjualan) {
+                return '
+                <div class="btn-group">
+                    <button onclick="showDetail(`'. route('penjualan.show', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-eye"></i></button>
+                    <button onclick="deleteData(`'. route('penjualan.destroy', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                </div>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /**
@@ -34,7 +70,7 @@ class PenjualanController extends Controller
         $penjualan->save();
 
         session(['id_penjualan' => $penjualan->id_penjualan]);
-        return view('/transaksi/cart', compact('diskon'));
+        return view('kasir.cart', compact('diskon'));
     }
 
     
@@ -79,7 +115,7 @@ class PenjualanController extends Controller
                 return $detail->produk->nama_produk;
             })
             ->addColumn('harga_jual', function ($detail) {
-                return 'Rp. '. format_angka($detail->harga_jual);
+                return 'Rp. '. format_angka($detail->harga);
             })
             ->addColumn('jumlah', function ($detail) {
                 return format_angka($detail->jumlah);
@@ -133,5 +169,19 @@ class PenjualanController extends Controller
         $setting = Setting::first();
 
         return view('transaksi.selesai', compact('setting'));
+    }
+
+    public function nota()
+    {
+        $setting = Setting::first();
+        $penjualan = Penjualan::find(session('id_penjualan'));
+        if (! $penjualan) {
+            abort(404);
+        }
+        $detail = DetailPenjualan::with('produk')
+            ->where('id_penjualan', session('id_penjualan'))
+            ->get();
+        
+        return view('penjualan.nota', compact('setting', 'penjualan', 'detail'));
     }
 }
