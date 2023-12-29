@@ -37,9 +37,6 @@
                 <a href="{{route('diskon.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Diskon</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('transaksi.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Transaksi</span></a>
-            </li>
-            <li class="nav-item">
                 <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
             </li>
             <li class="nav-item">

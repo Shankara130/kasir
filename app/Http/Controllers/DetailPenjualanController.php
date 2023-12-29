@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailPenjualan;
+use App\Models\Diskon;
+use App\Models\Penjualan;
 use App\Models\produk;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -15,7 +17,13 @@ class DetailPenjualanController extends Controller
     public function index()
     {
         $produk = produk::orderBy('nama_produk')->get();
-        $diskon = Setting::first()->diskon ?? 0;
+        $diskon = Diskon::orderBy('nama_diskon')->get();
+
+        if ($id_penjualan = session('id_penjualan')) {
+            $penjualan = Penjualan::find($id_penjualan);
+
+            return view('kasir.cart', compact('produk', 'diskon', 'id_penjualan', 'penjualan'));
+        }
 
     }
 

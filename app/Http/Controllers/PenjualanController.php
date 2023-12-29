@@ -70,7 +70,7 @@ class PenjualanController extends Controller
         $penjualan->save();
 
         session(['id_penjualan' => $penjualan->id_penjualan]);
-        return view('kasir.cart', compact('diskon'));
+        return redirect()->route('transaksi.index', compact('diskon'));
     }
 
     
@@ -78,7 +78,7 @@ class PenjualanController extends Controller
     {
         $penjualan = Penjualan::findOrFail($request->id_penjualan);
         $penjualan->total_item = $request->total_item;
-        $penjualan->total_harga = $request->total;
+        $penjualan->total_harga = $request->total_harga;
         $penjualan->diskon = $request->diskon;
         $penjualan->bayar = $request->bayar;
         $penjualan->update();

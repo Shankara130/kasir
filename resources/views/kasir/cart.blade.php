@@ -111,8 +111,10 @@
                 </div>
                 <form action="{{ route('transaksi.store') }}" method="POST">
                     @csrf
+                    <input type="hidden" name="id_penjualan" value="{{ $id_penjualan }}">
                     <input type="hidden" name="total_item" value="{{ count(session('cart')) }}">
                     <input type="hidden" name="total_harga" value="{{ $total }}">
+                    <input type="hidden" name="id_user" value="">
                     <div class="col">
                         <div class="row mb-3">
                             <label for="total_diskon">Diskon</label>
@@ -129,7 +131,7 @@
                             <label for="bayar" class="col-sm-2 col-form-label">Bayar</label>
                             <div class="col-sm-10">
                                 <input type="hidden" name="bayar" id="bayar1" value="{{ $total }}">
-                                <input type="text" class="form-control" id="bayar" name="bayar" readonly
+                                <input type="text" class="form-control" id="bayar" name="bayar1" readonly
                                     value="Rp. {{ format_angka($total) }},00">
                             </div>
                         </div>
