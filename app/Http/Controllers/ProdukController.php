@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\produk;
 use App\Models\Diskon;
+use App\Models\Stok;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -14,9 +15,11 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
+        $produk = Produk::all();
+        $stok = Stok::all();
+        $kategori = Kategori::all();
 
-        return view('produk.index', compact('kategori'));
+        return view('produk.index', compact('kategori', 'produk', 'stok'));
     }
 
     public function addProducttoCart(Request $request, $id)

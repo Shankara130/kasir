@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\produk;
 use Illuminate\Http\Request;
 use App\Models\Diskon;
 
@@ -10,11 +11,12 @@ class DiskonController extends Controller
 
     public function index()
     {
+        $produk = produk::all();
         $diskon = Diskon::all();
         $data = [
             'diskon'=>'diskon'
         ];
-        return view('diskon.index', compact('diskon'));
+        return view('diskon.index', compact('diskon', 'produk'));
     }
 
     public function data()

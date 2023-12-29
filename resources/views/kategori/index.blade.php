@@ -1,147 +1,110 @@
 @extends('layout/app-layout')
+
 @section('title')
-    <title>Kategori</title>
+    <title>Data Kategori</title>
 @endsection
 
 @section('sisipancss')
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 @endsection
 @section('sisipanjs')
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+
+
+
 @endsection
 @section('breadcrumb')
-    <div class="page-header">
-        <div class="page-block">
-            <div class="row align-items-center">
-                <div class="col-md-12">
-                    <div class="page-header-title">
-                        <h5 class="m-b-10">Data produk</h5>
-                    </div>
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('admin') }}"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="#!">Data Kategori</a></li>
-                    </ul>
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Data Kategoru</h5>
                 </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Data Kategori</a></li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('mainpage')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <button onclick="addForm('{{ route('kategori.store') }}')" class="btn btn-success btn-xs btn-flat"><i
-                            class="fa fa-plus-circle"></i> Tambah</button>
-                </div>
-                <div class="box-body table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <th width="5%">No</th>
-                            <th>Kategori</th>
-                            <th width="15%"><i class="fa fa-cog"></i></th>
-                        </thead>
-                    </table>
-                </div>
+
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add">Tambah Kategori</button>
+<div id="add" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Kategori</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form action="{{ route('kategori.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group mb-4">
+                        <label class="floating-label" for="nama_kategori">Kategori Produk</label>
+                        <input type="text" class="form-control" id="nama_kategori" name="nama_kategori">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save changes</a></button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </form>
         </div>
     </div>
+</div>
+<div class="row">
 
-    @includeIf('kategori.form')
-@endsection
+    <table id="tablecustomer" class="display">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Kategori Produk</th>
+                <th>aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($kategori as $k)
+            <tr>
+                <td>{{ $k->id_kategori }}</td>
+                <td>{{ $k->nama_kategori }}</td>
+                <td><button>detail</button></td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
-@push('scripts')
-    <script>
-        let table;
+<script>
+    let table = new DataTable('#tablecustomer');
 
-        $(function() {
-            table = $('.table').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                autoWidth: false,
-                ajax: {
-                    url: '{{ route('kategori.data') }}',
-                },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        searchable: false,
-                        sortable: false
-                    },
-                    {
-                        data: 'nama_kategori'
-                    },
-                    {
-                        data: 'aksi',
-                        searchable: false,
-                        sortable: false
-                    },
-                ]
-            });
-
-            $('#modal-form form').validate({
-                submitHandler: function(form) {
-                    $.post($(form).attr('action'), $(form).serialize())
-                        .done((response) => {
-                            $('#modal-form').modal('hide');
-                            table.ajax.reload();
-                        })
-                        .fail((errors) => {
-                            alert('Tidak dapat menyimpan data');
-                            return;
-                        });
-                }
-            });
+    $(document).ready(function () {
+        $('#tablecustomer').DataTable({
+            paging: true,
+            ordering: false,
+            info: false,
+            searching: true,
+            language: {
+                search: "",
+                search: "INPUT",
+                searchPlaceholder: "Keyword Pencarian Disini"
+            },
+            "lengthChange": false,
+            "pageLength": 15,
         });
+        $('.dataTables_filter').addClass('pull-left');
+        $('.dataTables_paginate').addClass('pull-left');
+    });
 
-        function addForm(url) {
-            $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Tambah Kategori');
-
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('post');
-            $('#modal-form [name=nama_kategori]').focus();
-        }
-
-        function editForm(url) {
-            $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Edit Kategori');
-
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('put');
-            $('#modal-form [name=nama_kategori]').focus();
-
-            $.get(url)
-                .done((response) => {
-                    $('#modal-form [name=nama_kategori]').val(response.nama_kategori);
-                })
-                .fail((errors) => {
-                    alert('Tidak dapat menampilkan data');
-                    return;
-                });
-        }
-
-        function deleteData(url) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.post(url, {
-                        '_token': $('[name=csrf-token]').attr('content'),
-                        '_method': 'delete'
-                    })
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
-                        return;
-                    });
-            }
-        }
-    </script>
-@endpush
+</script>
+@endsection
