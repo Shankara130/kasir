@@ -114,7 +114,7 @@
                     <input type="hidden" name="id_penjualan" value="{{ $id_penjualan }}">
                     <input type="hidden" name="total_item" value="{{ count(session('cart')) }}">
                     <input type="hidden" name="total_harga" value="{{ $total }}">
-                    <input type="hidden" name="id_user" value="">
+                    <input type="hidden" name="id_user" value="1">
                     <div class="col">
                         <div class="row mb-3">
                             <label for="total_diskon">Diskon</label>

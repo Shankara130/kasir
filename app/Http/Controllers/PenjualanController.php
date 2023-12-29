@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
 {
-    
+
     public function index()
     {
         return view('penjualan.index');
@@ -29,10 +29,10 @@ class PenjualanController extends Controller
                 return format_angka($penjualan->total_item);
             })
             ->addColumn('total_harga', function ($penjualan) {
-                return 'Rp. '. format_angka($penjualan->total_harga);
+                return 'Rp. ' . format_angka($penjualan->total_harga);
             })
             ->addColumn('bayar', function ($penjualan) {
-                return 'Rp. '. format_angka($penjualan->bayar);
+                return 'Rp. ' . format_angka($penjualan->bayar);
             })
             ->addColumn('tanggal', function ($penjualan) {
                 return tanggal($penjualan->created_at, false);
@@ -46,8 +46,8 @@ class PenjualanController extends Controller
             ->addColumn('aksi', function ($penjualan) {
                 return '
                 <div class="btn-group">
-                    <button onclick="showDetail(`'. route('penjualan.show', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-eye"></i></button>
-                    <button onclick="deleteData(`'. route('penjualan.destroy', $penjualan->id_penjualan) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button onclick="showDetail(`' . route('penjualan.show', $penjualan->id_penjualan) . '`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-eye"></i></button>
+                    <button onclick="deleteData(`' . route('penjualan.destroy', $penjualan->id_penjualan) . '`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -73,7 +73,7 @@ class PenjualanController extends Controller
         return redirect()->route('transaksi.index', compact('diskon'));
     }
 
-    
+
     public function store(Request $request)
     {
         $penjualan = Penjualan::findOrFail($request->id_penjualan);
@@ -83,20 +83,19 @@ class PenjualanController extends Controller
         $penjualan->bayar = $request->bayar;
         $penjualan->update();
 
-        $detail = DetailPenjualan::where('id_penjualan', $penjualan->id_penjualan)->get();
-        foreach ($detail as $item) {
-            $item->diskon = $request->diskon;
-            $item->update();
 
-            $produk = produk::find($item->id_produk);
-            $produk->stok -= $item->jumlah;
-            $produk->update();
-
-            $stok = Stok::find($item->id_produk);
-            $stok->stok_out += $item->jumlah;
-            $stok->total_stok = $item->stok_in - $stok->stok_out;
-            $stok->update();
+        foreach (session('cart') as $id => $details) {
+            $detail = new DetailPenjualan();
+            $detail->id_penjualan = $request->id_penjualan;
+            $detail->id_produk = $id;
+            $detail->harga = $details['price'];
+            $detail->jumlah = 1;
+            $detail->diskon = $request->diskon;
+            $detail->subtotal = $details['price'] - ($request->diskon / 100 * $details['price']);
+            $detail->save();
         }
+
+        $request->session()->forget('cart');
 
         return redirect()->route('transaksi.selesai');
     }
@@ -115,13 +114,13 @@ class PenjualanController extends Controller
                 return $detail->produk->nama_produk;
             })
             ->addColumn('harga_jual', function ($detail) {
-                return 'Rp. '. format_angka($detail->harga);
+                return 'Rp. ' . format_angka($detail->harga);
             })
             ->addColumn('jumlah', function ($detail) {
                 return format_angka($detail->jumlah);
             })
             ->addColumn('subtotal', function ($detail) {
-                return 'Rp. '. format_angka($detail->subtotal);
+                return 'Rp. ' . format_angka($detail->subtotal);
             })
             ->make(true);
     }
@@ -148,7 +147,7 @@ class PenjualanController extends Controller
     public function destroy($id)
     {
         $penjualan = Penjualan::find($id);
-        $detail    = DetailPenjualan::where('id_penjualan', $penjualan->id_penjualan)->get();
+        $detail = DetailPenjualan::where('id_penjualan', $penjualan->id_penjualan)->get();
         foreach ($detail as $item) {
             $produk = Produk::find($item->id_produk);
             if ($produk) {
@@ -175,13 +174,13 @@ class PenjualanController extends Controller
     {
         $setting = Setting::first();
         $penjualan = Penjualan::find(session('id_penjualan'));
-        if (! $penjualan) {
+        if (!$penjualan) {
             abort(404);
         }
         $detail = DetailPenjualan::with('produk')
             ->where('id_penjualan', session('id_penjualan'))
             ->get();
-        
+
         return view('penjualan.nota', compact('setting', 'penjualan', 'detail'));
     }
 }

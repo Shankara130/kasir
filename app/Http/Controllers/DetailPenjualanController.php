@@ -16,6 +16,7 @@ class DetailPenjualanController extends Controller
      */
     public function index()
     {
+        
         $produk = produk::orderBy('nama_produk')->get();
         $diskon = Diskon::orderBy('nama_diskon')->get();
 
@@ -41,6 +42,7 @@ class DetailPenjualanController extends Controller
     public function store(Request $request)
     {
         $produk = Produk::where('id_produk', $request->id_produk)->first();
+        dd($produk);
         if (! $produk) {
             return response()->json('Data gagal disimpan', 400);
         }

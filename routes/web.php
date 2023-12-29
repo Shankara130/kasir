@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/transaksi', [PenjualanController::class, 'index'])->name('transaksi.data');
     Route::resource('/transaksi', DetailPenjualanController::class)
-        ->except('create', 'show', 'edit');
+        ->except('create', 'store', 'show', 'edit');
 
     Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
     Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
