@@ -4,7 +4,7 @@
             <div class="main-menu-header">
                 <img class="img-radius" src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="User-Profile-Image">
                 <div class="user-details">
-                    <div id="more-details">Halo, {$kasir} <i class="fa fa-caret-down"></i></div>
+                    <div id="more-details">Halo, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></div>
                 </div>
             </div>
             <div class="collapse" id="nav-user-link">

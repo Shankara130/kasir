@@ -11,8 +11,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
 @section('breadcrumb')
-    @parent
-    <li class="active">Dashboard</li>
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Dashboard</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('mainpage')
@@ -40,20 +53,20 @@
     var salesChartCanvas = $('#salesChart')[0].getContext('2d');
 
     var salesChartData = {
-        labels: {{ json_encode($data_tanggal) }},
-        datasets: [
-            {
-                label: 'Pendapatan',
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                pointBackgroundColor: '#3b8bba',
-                pointBorderColor: 'rgba(60,141,188,1)',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(60,141,188,1)',
-                data: {{ json_encode($data_pendapatan) }}
-            }
-        ]
-    };
+    labels: {!! json_encode($data_tanggal) !!},
+    datasets: [
+        {
+            label: 'Pendapatan',
+            backgroundColor: 'rgba(60,141,188,0.9)',
+            borderColor: 'rgba(60,141,188,0.8)',
+            pointBackgroundColor: '#3b8bba',
+            pointBorderColor: 'rgba(60,141,188,1)',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(60,141,188,1)',
+            data: {!! json_encode($data_pendapatan) !!}
+        }
+    ]
+};
 
     var salesChartOptions = {
         elements: {

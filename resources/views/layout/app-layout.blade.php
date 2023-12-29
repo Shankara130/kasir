@@ -71,6 +71,12 @@
 
     <!-- custom-chart js -->
     <script src="{{ asset('assets/js/pages/dashboard-main.js') }}"></script>
+    <script>
+        function preview(selector, temporaryFile, width = 200)  {
+            $(selector).empty();
+            $(selector).append(`<img src="${window.URL.createObjectURL(temporaryFile)}" width="${width}">`);
+        }
+    </script>
     @stack('scripts')
 </body>
 

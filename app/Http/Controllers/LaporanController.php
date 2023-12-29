@@ -40,7 +40,6 @@ class LaporanController extends Controller
             $row = array();
             $row['DT_RowIndex'] = $no++;
             $row['tanggal'] = tanggal($tanggal, false);
-            $row['penjualan'] = format_angka($total_penjualan);
             $row['pendapatan'] = format_angka($pendapatan);
 
             $data[] = $row;
@@ -49,7 +48,6 @@ class LaporanController extends Controller
         $data[] = [
             'DT_RowIndex' => '',
             'tanggal' => '',
-            'penjualan' => '',
             'pendapatan' => format_angka($total_pendapatan),
         ];
 

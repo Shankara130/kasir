@@ -1,5 +1,9 @@
 @extends('layout/app-layout')
 
+@section('title')
+    <title>Data Produk</title>
+@endsection
+
 @section('sisipancss')
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
@@ -19,7 +23,7 @@
         <div class="row align-items-center">
             <div class="col-md-12">
                 <div class="page-header-title">
-                    <h5 class="m-b-10">Data produk</h5>
+                    <h5 class="m-b-10">Data Produk</h5>
                 </div>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="feather icon-home"></i></a></li>

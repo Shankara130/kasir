@@ -1,12 +1,39 @@
 @extends('layout.app-layout')
 
 @section('title')
-    <title>Laporan</title>
+    <title>Laporan Pendapatan</title>
+@endsection
+
+
+@section('sisipancss')
+    
+@endsection
+
+@section('sisipanjs')
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 @endsection
 
 @section('breadcrumb')
-    @parent
-    <li class="active">Laporan</li>
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Laporan Pendapatan</h5>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('admin')}}"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#!">Laporan Pendapatan</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('mainpage')
@@ -23,7 +50,6 @@
                     <thead>
                         <th width="5%">No</th>
                         <th>Tanggal</th>
-                        <th>Penjualan</th>
                         <th>Pendapatan</th>
                     </thead>
                 </table>
@@ -51,7 +77,6 @@
             columns: [
                 {data: 'DT_RowIndex', searchable: false, sortable: false},
                 {data: 'tanggal'},
-                {data: 'penjualan'},
                 {data: 'pendapatan'}
             ],
             dom: 'Brt',

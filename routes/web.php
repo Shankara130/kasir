@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/produk/{id}', [ProdukController::class, 'addProducttoCart'])->name('addproduct.to.cart');
     Route::patch('/update-shopping-cart', [ProdukController::class, 'updateCart'])->name('update.shopping.cart');
     Route::delete('/delete-cart-product', [ProdukController::class, 'deleteProduct'])->name('delete.cart.product');
-
+    Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
     Route::post('/produk/delete-selected', [ProdukController::class, 'deleteSelected'])->name('produk.delete_selected');
     Route::resource('/produk', ProdukController::class);
 
@@ -66,8 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
     Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
 
+    Route::get('/stok/data', [StokController::class, 'data'])->name('stok.data');
     Route::resource('/stok', StokController::class);
 
+    Route::get('/diskon/data', [DiskonController::class, 'data'])->name('diskon.data');
     Route::resource('/diskon', DiskonController::class);
 
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
