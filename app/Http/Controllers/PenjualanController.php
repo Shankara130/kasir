@@ -89,10 +89,15 @@ class PenjualanController extends Controller
             $detail->id_penjualan = $request->id_penjualan;
             $detail->id_produk = $id;
             $detail->harga = $details['price'];
-            $detail->jumlah = 1;
+            $detail->jumlah = $details['quantity'];
             $detail->diskon = $request->diskon;
             $detail->subtotal = $details['price'] - ($request->diskon / 100 * $details['price']);
             $detail->save();
+
+            $stok = Stok::findOrFail($id);
+            $stok->stok_out += $detail->jumlah;
+            $stok->total_stok = $stok->stok_in - $stok->stok_out;
+            $stok->update();
         }
 
         $request->session()->forget('cart');
@@ -167,7 +172,7 @@ class PenjualanController extends Controller
     {
         $setting = Setting::first();
 
-        return view('transaksi.selesai', compact('setting'));
+        return view('kasir.selesai', compact('setting'));
     }
 
     public function nota()
