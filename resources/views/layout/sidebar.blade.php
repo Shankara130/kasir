@@ -9,7 +9,7 @@
             </div>
             <div class="collapse" id="nav-user-link">
                 <ul class="list-unstyled">
-                    <li class="list-group-item"><a href=""><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
+                    <li class="list-group-item"><a href="#" onclick="$('#logout-form').submit()"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -51,3 +51,6 @@
 
     </div>
 </div>
+<form action="{{ route('logout') }}" method="post" id="logout-form" style="display: none;">
+    @csrf
+</form> 
