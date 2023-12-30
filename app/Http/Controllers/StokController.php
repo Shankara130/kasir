@@ -46,7 +46,7 @@ class StokController extends Controller
             ->addColumn('stok', function ($stok) {
                 return format_angka($stok->stok_out);
             })
-            ->addColumn('harga_beli', function ($stok) {
+            ->addColumn('stok', function ($stok) {
                 return format_angka($stok->total_stok);
             })
             ->addColumn('aksi', function ($stok) {

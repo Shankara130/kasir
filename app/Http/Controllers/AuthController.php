@@ -15,20 +15,24 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'    =>'required',
+            'email' => 'required',
             'password' => 'required'
-        ],[
-            'email.required'    => 'Email wajib diisi',
+        ], [
+            'email.required' => 'Email wajib diisi',
             'password.required' => 'Password wajib diisi'
         ]);
 
         $infologin = [
-            'email'    => $request->email,
+            'email' => $request->email,
             'password' => $request->password
         ];
 
-        if(Auth::attempt($infologin)) {
-            return redirect('/admin');
+        if (Auth::attempt($infologin)) {
+            if (Auth::user()->level == 1) {
+                return redirect('/dashboard');
+            } else {
+                return redirect('/admin');
+            }
         } else {
             return redirect('')->withErrors('Email dan Password yang dimasukkan tidak sesuai')->withInput();
         }
