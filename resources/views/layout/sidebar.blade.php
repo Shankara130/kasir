@@ -18,9 +18,17 @@
             <li class="nav-item pcoded-menu-caption">
                 <label>Navigation</label>
             </li>
+            @if (auth()->user()->level == 1)
             <li class="nav-item">
                 <a href="{{route('dashboard')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
             </li>
+            <li class="nav-item">
+                <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('penjualan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Penjualan</span></a>
+            </li>   
+            @else
             <li class="nav-item">
                 <a href="{{route('admin')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Transaksi</span></a>
             </li>
@@ -37,11 +45,10 @@
                 <a href="{{route('diskon.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Diskon</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
-            </li>
-            <li class="nav-item">
                 <a href="{{route('penjualan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Penjualan</span></a>
             </li>
+                
+            @endif
 
 
 
