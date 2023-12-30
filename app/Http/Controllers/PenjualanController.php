@@ -8,6 +8,7 @@ use App\Models\produk;
 use App\Models\Setting;
 use App\Models\Stok;
 use App\Models\Diskon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
@@ -76,12 +77,15 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
-        $penjualan = Penjualan::findOrFail($request->id_penjualan);
+        try{
+
+            $penjualan = Penjualan::findOrFail($request->id_penjualan);
         $penjualan->total_item = $request->total_item;
         $penjualan->total_harga = $request->total_harga;
         $penjualan->diskon = $request->diskon;
         $penjualan->bayar = $request->bayar;
         $penjualan->update();
+        // dd(session('cart'));
 
 
         foreach (session('cart') as $id => $details) {
@@ -94,15 +98,32 @@ class PenjualanController extends Controller
             $detail->subtotal = $details['price'] - ($request->diskon / 100 * $details['price']);
             $detail->save();
 
-            $stok = Stok::findOrFail($id);
-            $stok->stok_out += $detail->jumlah;
-            $stok->total_stok = $stok->stok_in - $stok->stok_out;
-            $stok->update();
+            // echo $id."-";
+            try{                                                                        
+                $stok = Stok::with('produk')->where('id_produk', $id)->get();
+                // dd($stok);
+                $stok[0]->stok_out += $detail->jumlah;
+                $stok[0]->total_stok = $stok[0]->stok_in - $stok[0]->stok_out;
+                $stok[0]->update();
+                $request->session()->forget('cart');
+
+                return redirect()->route('transaksi.selesai');
+            }catch (ModelNotFoundException $f){
+                // dd(get_class_methods($f));
+                dd($f->getMessage());
+                // return redirect()->route('transaksi');
+
+            }
+            
         }
 
-        $request->session()->forget('cart');
+        
+        }catch (ModelNotFoundException $e){
+            dd(get_class_methods($e));
+            dd($e);
+        }
+        
 
-        return redirect()->route('transaksi.selesai');
     }
 
     /**

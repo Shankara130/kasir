@@ -12,10 +12,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="id_kategori" class="col-lg-2 col-lg-offset-1 control-label">Stok Produk</label>
+                        <label for="id_produk" class="col-lg-2 col-lg-offset-1 control-label">Stok Produk</label>
                         <div class="col-lg-6">
                             <select name="id_produk" id="id_produk" class="form-control" required>
-                                <option value="">Pilih Kategori</option>
+                                <option value="">Pilih Produk</option>
                                 @foreach ($produk as $p)
                                 <option value="{{ $p->id_produk }}">{{ $p->nama_produk }}</option>
                                 @endforeach

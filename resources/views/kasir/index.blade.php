@@ -145,7 +145,7 @@
             <div class="col-md-3 col-6 mb-4">
                 <div class="card">
                     @if ($produk->foto_produk)
-                        <img src="{{ asset('/storage/assets/images/produk/' . $produk->foto_produk) }}" alt="">
+                        <img src="{{ asset('assets/images/produk/' . $produk->foto_produk) }}" alt="">
                     @else
                         <img src="{{ asset('assets/images/produk/default.png') }}" alt="">
                     @endif
@@ -154,11 +154,11 @@
                         <p class="card-text"><strong>Harga: </strong> Rp. {{ format_angka($produk->harga) }}</p>
                         <div class="d-flex justify-content-center">
                             <button class="fw-bold btn btn-primary w-25 decrease">-</button>
-                            <span class="mx-2 counter">0</span>
+                            <span class="mx-2 counter" id="counter{{ $produk->id_produk }}">0</span>
                             <button class="fw-bold btn btn-primary w-25 increase"">+</button>
                         </div> <br>
                         <div class="d-flex justify-content-center">
-                            <p class="btn-holder"><a href="{{ route('addproduct.to.cart', $produk->id_produk) }}"
+                            <p class="btn-holder"><a href="#" onclick="addToCart('{{ $produk->id_produk }}',  '{{ $index }}')"
                                     class="btn btn-outline-danger">Tambahkan ke keranjang</a>
                             </p>
                         </div>

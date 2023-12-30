@@ -26,37 +26,37 @@ class ProdukController extends Controller
     {
         $produk = Produk::findOrFail($id);
         $cart = session()->get('cart', []);
-    
+
         if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
             $cart[$id] = [
                 "name" => $produk->nama_produk,
-                "quantity" => 1,
+                "quantity" => $request->quantity ?? 1,
                 "price" => $produk->harga
             ];
         }
-    
+
         session()->put('cart', $cart);
-    
+
         return redirect()->back()->with('success', 'Berhasil ditambahkan ke keranjang');
     }
 
     public function updateCart(Request $request)
     {
-        if($request->id && $request->quantity){
+        if ($request->id && $request->quantity) {
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
             session()->flash('success', 'Berhasil ditambahkan ke keranjang');
         }
     }
-   
+
     public function deleteProduct(Request $request)
     {
-        if($request->id) {
+        if ($request->id) {
             $cart = session()->get('cart');
-            if(isset($cart[$request->id])) {
+            if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
@@ -75,20 +75,17 @@ class ProdukController extends Controller
             ->addIndexColumn()
             ->addColumn('select_all', function ($produk) {
                 return '
-                    <input type="checkbox" name="id_produk[]" value="'. $produk->id_produk .'">
+                    <input type="checkbox" name="id_produk[]" value="' . $produk->id_produk . '">
                 ';
             })
             ->addColumn('harga', function ($produk) {
                 return format_angka($produk->harga);
             })
-            ->addColumn('stok', function ($produk) {
-                return format_angka($produk->stok);
-            })
             ->addColumn('aksi', function ($produk) {
                 return '
                 <div class="btn-group">
-                    <button type="button" onclick="editForm(`'. route('produk.update', $produk->id_produk) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>
-                    <button type="button" onclick="deleteData(`'. route('produk.destroy', $produk->id_produk) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button type="button" onclick="editForm(`' . route('produk.update', $produk->id_produk) . '`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>
+                    <button type="button" onclick="deleteData(`' . route('produk.destroy', $produk->id_produk) . '`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -96,6 +93,7 @@ class ProdukController extends Controller
             ->make(true);
     }
 
+    // 1. Rapihkeun hela javascriptna
     /**
      * Show the form for creating a new resource.
      */

@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
         Route::resource('/kategori', KategoriController::class);
 
-        Route::get('/produk/{id}', [ProdukController::class, 'addProducttoCart'])->name('addproduct.to.cart');
+        Route::post('/produk/{id}', [ProdukController::class, 'addProducttoCart'])->name('addproduct.to.cart');
         Route::patch('/update-shopping-cart', [ProdukController::class, 'updateCart'])->name('update.shopping.cart');
         Route::delete('/delete-cart-product', [ProdukController::class, 'deleteProduct'])->name('delete.cart.product');
         Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');

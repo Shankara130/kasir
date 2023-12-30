@@ -92,7 +92,7 @@
                 {data: 'nama_produk'},
                 {data: 'harga'},
                 {data: 'jumlah'},
-                {data: 'diskon'},
+                // {data: 'diskon'},
                 {data: 'subtotal'},
             ]
         })

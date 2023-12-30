@@ -66,11 +66,11 @@
     <script src="{{ asset('assets/js/pcoded.min.js') }}"></script>
     @yield('sisipanjs')
     <!-- Apex Chart -->
-    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script> --}}
 
 
     <!-- custom-chart js -->
-    <script src="{{ asset('assets/js/pages/dashboard-main.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/pages/dashboard-main.js') }}"></script> --}}
     <script>
         function preview(selector, temporaryFile, width = 200)  {
             $(selector).empty();

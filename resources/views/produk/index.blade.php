@@ -54,7 +54,6 @@
                                 <th>Nama</th>
                                 <th>Kategori</th>
                                 <th>Harga</th>
-                                <th>Stok</th>
                                 <th width="15%"><i class="fa fa-cog"></i></th>
                             </thead>
                         </table>
@@ -98,9 +97,6 @@
                     },
                     {
                         data: 'harga'
-                    },
-                    {
-                        data: 'stok'
                     },
                     {
                         data: 'aksi',
@@ -153,7 +149,6 @@
                     $('#modal-form [name=nama_produk]').val(response.nama_produk);
                     $('#modal-form [name=id_kategori]').val(response.id_kategori);
                     $('#modal-form [name=harga]').val(response.harga);
-                    $('#modal-form [name=stok]').val(response.stok);
                 })
                 .fail((errors) => {
                     alert('Tidak dapat menampilkan data');
@@ -194,5 +189,6 @@
                 return;
             }
         }
+        
     </script>
 @endpush
