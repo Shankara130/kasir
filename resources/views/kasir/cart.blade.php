@@ -1,11 +1,10 @@
 @extends('layout/app-layout')
 
 @section('sisipancss')
-    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
 @section('sisipanjs')
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
 
 
@@ -189,7 +188,7 @@
                     bayarValue = totalValue - diskon;
                 }
 
-                bayar.value = bayarValue
+                bayar.value = bayarValue;
                 bayarInput.value = formatPrice(bayarValue);
             });
 
@@ -200,40 +199,40 @@
                 kembaliInput.value = formatPrice(kembaliValue);
             });
         });
-        $(".edit-cart-info").change(function (e) {
-        e.preventDefault();
-        var ele = $(this);
-        $.ajax({
-            url: '{{ route('update.shopping.cart') }}',
-            method: "patch",
-            data: {
-                _token: '{{ csrf_token() }}', 
-                id: ele.parents("tr").attr("rowId"), 
-            },
-            success: function (response) {
-               window.location.reload();
-            }
-        });
-    });
-   
-    $(".delete-product").click(function (e) {
-        e.preventDefault();
-   
-        var ele = $(this);
-   
-        if(confirm("Do you really want to delete?")) {
-            $.ajax({
-                url: '{{ route('delete.cart.product') }}',
-                method: "DELETE",
+
+        jQuery(".edit-cart-info").change(function(e) {
+            e.preventDefault();
+            var ele = jQuery(this);
+            jQuery.ajax({
+                url: '{{ route('update.shopping.cart') }}',
+                method: "patch",
                 data: {
-                    _token: '{{ csrf_token() }}', 
-                    id: ele.parents("tr").attr("rowId")
+                    _token: '{{ csrf_token() }}',
+                    id: ele.parents("tr").attr("rowId"),
                 },
-                success: function (response) {
+                success: function(response) {
                     window.location.reload();
                 }
             });
-        }
-    });
+        });
+
+        jQuery(".delete-product").click(function(e) {
+            e.preventDefault();
+            var ele = jQuery(this);
+
+            if (confirm("Do you really want to delete?")) {
+                jQuery.ajax({
+                    url: '{{ route('delete.cart.product') }}',
+                    method: "DELETE",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: ele.parents("tr").attr("rowId")
+                    },
+                    success: function(response) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
     </script>
 @endsection
