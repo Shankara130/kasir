@@ -77,52 +77,52 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
-        try{
+        try {
 
             $penjualan = Penjualan::findOrFail($request->id_penjualan);
-        $penjualan->total_item = $request->total_item;
-        $penjualan->total_harga = $request->total_harga;
-        $penjualan->diskon = $request->diskon;
-        $penjualan->bayar = $request->bayar;
-        $penjualan->update();
-        // dd(session('cart'));
+            $penjualan->total_item = $request->total_item;
+            $penjualan->total_harga = $request->total_harga;
+            $penjualan->diskon = $request->diskon;
+            $penjualan->bayar = $request->bayar;
+            $penjualan->update();
+            // dd(session('cart'));
 
 
-        foreach (session('cart') as $id => $details) {
-            $detail = new DetailPenjualan();
-            $detail->id_penjualan = $request->id_penjualan;
-            $detail->id_produk = $id;
-            $detail->harga = $details['price'];
-            $detail->jumlah = $details['quantity'];
-            $detail->diskon = $request->diskon;
-            $detail->subtotal = $details['price'] - ($request->diskon / 100 * $details['price']);
-            $detail->save();
+            foreach (session('cart') as $id => $details) {
+                $detail = new DetailPenjualan();
+                $detail->id_penjualan = $request->id_penjualan;
+                $detail->id_produk = $id;
+                $detail->harga = $details['price'];
+                $detail->jumlah = $details['quantity'];
+                $detail->diskon = $request->diskon;
+                $detail->subtotal = $details['price'] - ($request->diskon / 100 * $details['price']);
+                $detail->save();
 
-            // echo $id."-";
-            try{                                                                        
-                $stok = Stok::with('produk')->where('id_produk', $id)->get();
-                // dd($stok);
-                $stok[0]->stok_out += $detail->jumlah;
-                $stok[0]->total_stok = $stok[0]->stok_in - $stok[0]->stok_out;
-                $stok[0]->update();
-                $request->session()->forget('cart');
+                // echo $id."-";
+                try {
+                    $stok = Stok::with('produk')->where('id_produk', $id)->get();
+                    // dd($stok);
+                    $stok[0]->stok_out += $detail->jumlah;
+                    $stok[0]->total_stok = $stok[0]->stok_in - $stok[0]->stok_out;
+                    $stok[0]->update();
+                    $request->session()->forget('cart');
 
-                return redirect()->route('transaksi.selesai');
-            }catch (ModelNotFoundException $f){
-                // dd(get_class_methods($f));
-                dd($f->getMessage());
-                // return redirect()->route('transaksi');
+                    return redirect()->route('transaksi.selesai');
+                } catch (ModelNotFoundException $f) {
+                    // dd(get_class_methods($f));
+                    dd($f->getMessage());
+                    // return redirect()->route('transaksi');
+
+                }
 
             }
-            
-        }
 
-        
-        }catch (ModelNotFoundException $e){
+
+        } catch (ModelNotFoundException $e) {
             dd(get_class_methods($e));
             dd($e);
         }
-        
+
 
     }
 

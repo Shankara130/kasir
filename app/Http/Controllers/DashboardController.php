@@ -11,8 +11,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::count();
-        $produk = produk::count();
         $tanggal_awal = date('Y-m-01');
         $tanggal_akhir = date('Y-m-d');
 
@@ -31,6 +29,6 @@ class DashboardController extends Controller
 
         $tanggal_awal = date('Y-m-01');
 
-        return view('admin.dashboard', compact('kategori', 'produk', 'tanggal_awal', 'tanggal_akhir', 'data_tanggal', 'data_pendapatan'));
+        return view('admin.dashboard', compact('tanggal_awal', 'tanggal_akhir', 'data_tanggal', 'data_pendapatan'));
     }
 }

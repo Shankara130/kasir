@@ -55,4 +55,30 @@ class DiskonController extends Controller
 
         return redirect('/diskon');
     }
+
+    public function show($id)
+    {
+        $diskon = Diskon::find($id);
+
+        return response()->json($diskon);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $diskon = Diskon::find($id);
+        $diskon->update($request->all());
+
+        return response()->json('Data berhasil diubah', 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $diskon = Diskon::find($id);
+        $diskon->delete();
+
+        return response(null, 204);
+    }
 }

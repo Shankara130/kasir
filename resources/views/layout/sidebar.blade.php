@@ -26,6 +26,9 @@
                 <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
             </li>
             <li class="nav-item">
+                <a href="{{route('laporan.produk.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
+            </li>
+            <li class="nav-item">
                 <a href="{{route('penjualan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Penjualan</span></a>
             </li>   
             @else

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailPenjualan;
 use App\Models\Penjualan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -20,7 +21,6 @@ class LaporanController extends Controller
 
         return view('laporan.index', compact('tanggalAwal', 'tanggalAkhir'));
     }
-
     public function getData($awal, $akhir)
     {
         $no = 1;
@@ -66,9 +66,9 @@ class LaporanController extends Controller
     public function exportPDF($awal, $akhir)
     {
         $data = $this->getData($awal, $akhir);
-        $pdf  = Pdf::loadView('laporan.pdf', compact('awal', 'akhir', 'data'));
+        $pdf = Pdf::loadView('laporan.pdf', compact('awal', 'akhir', 'data'));
         $pdf->setPaper('a4', 'potrait');
-        
-        return $pdf->stream('Laporan-pendapatan-'. date('Y-m-d-his') .'.pdf');
+
+        return $pdf->stream('Laporan-pendapatan-' . date('Y-m-d-his') . '.pdf');
     }
 }

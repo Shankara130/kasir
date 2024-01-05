@@ -15,7 +15,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::all();
+        $produk = produk::all();
         $stok = Stok::all();
         $kategori = Kategori::all();
 
@@ -107,9 +107,9 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $produk = Produk::latest()->first() ?? new Produk();
+        $produk = produk::latest()->first() ?? new produk();
 
-        $produk = Produk::create($request->all());
+        $produk = produk::create($request->all());
 
         return response()->json('Data berhasil disimpan', 200);
     }
@@ -119,7 +119,7 @@ class ProdukController extends Controller
      */
     public function show($id)
     {
-        $produk = Produk::find($id);
+        $produk = produk::find($id);
 
         return response()->json($produk);
     }
@@ -148,7 +148,7 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        $produk = Produk::find($id);
+        $produk = produk::find($id);
         $produk->delete();
 
         return response(null, 204);
@@ -157,7 +157,7 @@ class ProdukController extends Controller
     public function deleteSelected(Request $request)
     {
         foreach ($request->id_produk as $id) {
-            $produk = Produk::find($id);
+            $produk = produk::find($id);
             $produk->delete();
         }
 

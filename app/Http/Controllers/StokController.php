@@ -87,24 +87,32 @@ class StokController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Stok $stok)
+    public function show($id)
     {
-        //
+        $stok = Stok::find($id);
+
+        return response()->json($stok);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Stok $stok)
+    public function update(Request $request, $id)
     {
-        //
+        $stok = Stok::find($id);
+        $stok->update($request->stok_in);
+
+        return response()->json('Data berhasil diubah', 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Stok $stok)
+    public function destroy($id)
     {
-        //
+        $stok = Stok::find($id);
+        $stok->delete();
+
+        return response(null, 204);
     }
 }

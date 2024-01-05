@@ -7,6 +7,7 @@ use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LaporanProdukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\StokController;
@@ -44,6 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
+
+        Route::get('/laporan-produk', [LaporanProdukController::class,'index'])->name('laporan.produk.index');
+        Route::get('/laporan-produk/data/{bulan}/{tahun}', [LaporanProdukController::class, 'data'])->name('laporan.produk.data');
     });
     Route::group(['middleware' => 'level:1,2'], function () {
         Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
