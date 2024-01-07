@@ -145,7 +145,7 @@
             <div class="col-md-3 col-6 mb-4">
                 <div class="card">
                     @if ($produk->foto_produk)
-                        <img src="{{ asset('assets/images/produk/' . $produk->foto_produk) }}" alt="">
+                        <img src="{{ asset('storage/images/' . $produk->foto_produk) }}" alt="">
                     @else
                         <img src="{{ asset('assets/images/produk/default.png') }}" alt="">
                     @endif

@@ -7,7 +7,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    <button type="button" class="close" onclick="hideModalForm()" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
@@ -38,10 +38,17 @@
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="foto_produk" class="col-lg-2 col-lg-offset-1 control-label">Foto</label>
+                        <div class="col-lg-6">
+                            <input type="file" name="foto_produk" id="foto_produk" class="form-control">
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-flat btn-primary"><i class="fa fa-save"></i> Simpan</button>
-                    <button type="button" class="btn btn-sm btn-flat btn-warning" data-dismiss="modal"><i
+                    <button class="btn btn-sm btn-flat btn-primary"><i class="fa fa-save" ></i> Simpan</button>
+                    <button type="button" class="btn btn-sm btn-flat btn-warning" onclick="hideModalForm()"><i
                             class="fa fa-arrow-circle-left"></i> Batal</button>
                 </div>
             </div>

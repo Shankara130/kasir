@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('nama_produk')->unique();
             $table->bigInteger('harga');
             $table->string('foto_produk')->nullable();
-            $table->integer('stok')->default(0);
             $table->timestamps();
         });
 

@@ -19,7 +19,6 @@ class SettingSeeder extends Seeder
             'nama_perusahaan' => 'Toko Ku',
             'alamat' => 'Jl. Kibandang Samaran Ds. Slangit',
             'telepon' => '081234779987',
-            'tipe_nota' => 1, // kecil
             'path_logo' => '/img/logo.png',
         ]);
     }

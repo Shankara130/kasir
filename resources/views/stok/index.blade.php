@@ -138,6 +138,11 @@
             $('#modal-form [name=nama_produk]').focus();
         }
 
+        function hideModalForm() {
+            $('#modal-form').modal('hide');
+            $('#modal-form form')[0].reset();
+        }
+
         function editForm(url) {
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Edit Stok');

@@ -14,7 +14,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        return view('setting.index');
     }
 
     /**
@@ -38,7 +38,7 @@ class SettingController extends Controller
      */
     public function show(Setting $setting)
     {
-        //
+        return Setting::first();
     }
 
     /**
@@ -54,7 +54,22 @@ class SettingController extends Controller
      */
     public function update(Request $request, Setting $setting)
     {
-        //
+        $setting = Setting::first();
+        $setting->nama_perusahaan = $request->nama_perusahaan;
+        $setting->telepon = $request->telepon;
+        $setting->alamat = $request->alamat;
+
+        if ($request->hasFile('path_logo')) {
+            $file = $request->file('path_logo');
+            $nama = 'logo-' . date('YmdHis') . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/img'), $nama);
+
+            $setting->path_logo = "/img/$nama";
+        }
+
+        $setting->update();
+
+        return response()->json('Data berhasil disimpan', 200);
     }
 
     /**

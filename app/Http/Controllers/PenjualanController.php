@@ -85,17 +85,15 @@ class PenjualanController extends Controller
             $penjualan->diskon = $request->diskon;
             $penjualan->bayar = $request->bayar;
             $penjualan->update();
-            // dd(session('cart'));
 
-
-            foreach (session('cart') as $id => $details) {
+            $cart = session()->get('cart', []);
+            foreach ($cart as $id => $details) {
                 $detail = new DetailPenjualan();
                 $detail->id_penjualan = $request->id_penjualan;
                 $detail->id_produk = $id;
                 $detail->harga = $details['price'];
                 $detail->jumlah = $details['quantity'];
-                $detail->diskon = $request->diskon;
-                $detail->subtotal = $details['price'] - ($request->diskon / 100 * $details['price']);
+                $detail->subtotal = $details['price'] * $details['quantity'];
                 $detail->save();
 
                 // echo $id."-";
@@ -105,25 +103,19 @@ class PenjualanController extends Controller
                     $stok[0]->stok_out += $detail->jumlah;
                     $stok[0]->total_stok = $stok[0]->stok_in - $stok[0]->stok_out;
                     $stok[0]->update();
-                    $request->session()->forget('cart');
-
-                    return redirect()->route('transaksi.selesai');
                 } catch (ModelNotFoundException $f) {
                     // dd(get_class_methods($f));
                     dd($f->getMessage());
-                    // return redirect()->route('transaksi');
-
+                    // return redirect()->route('transaksi');   
                 }
-
             }
-
+            $request->session()->forget('cart');
+            return redirect()->route('transaksi.selesai');
 
         } catch (ModelNotFoundException $e) {
             dd(get_class_methods($e));
             dd($e);
         }
-
-
     }
 
     /**

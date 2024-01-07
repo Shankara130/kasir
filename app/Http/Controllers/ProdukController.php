@@ -39,7 +39,7 @@ class ProdukController extends Controller
 
         session()->put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Berhasil ditambahkan ke keranjang');
+        return response()->json(['success' => true, 'message' => 'Berhasil ditambahkan ke keranjang']);
     }
 
     public function updateCart(Request $request)
@@ -107,12 +107,24 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $produk = produk::latest()->first() ?? new produk();
+        // Ambil file yang diupload
+        $file = $request->file('foto_produk');
 
-        $produk = produk::create($request->all());
+        // Pindahkan file ke folder penyimpanan
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public/images', $fileName);
 
-        return response()->json('Data berhasil disimpan', 200);
+        $produk = new produk;
+        $produk->id_kategori = $request->id_kategori;
+        $produk->nama_produk = $request->nama_produk;
+        $produk->harga = $request->harga;
+        $produk->foto_produk = $fileName;
+        $produk->save();
+
+        return response()->json(['success' => 'Data berhasil disimpan']);
+
     }
+
 
     /**
      * Display the specified resource.
@@ -137,11 +149,31 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kategori = Kategori::find($id);
-        $kategori->update($request->all());
+        // Ambil file yang diupload
+        $file = $request->file('foto_produk');
 
-        return response()->json('Data berhasil diubah', 200);
+        if ($file) {
+            // Jika ada file upload, pindahkan ke folder penyimpanan
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/images', $fileName);
+        }
+
+        // Ambil data produk yg akan diubah
+        $produk = Produk::findOrFail($id);
+
+        // Update data produk
+        $produk->nama_produk = $request->nama_produk;
+        $produk->harga = $request->harga;
+        if ($file) {
+            // Jika ada file upload, update nama file
+            $produk->foto_produk = $fileName;
+        }
+
+        $produk->save();
+
+        return response()->json(['success' => 'Data berhasil diubah']);
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('id_produk');
             $table->bigInteger('harga');
             $table->bigInteger('jumlah');
-            $table->integer('diskon')->default(0);
             $table->bigInteger('subtotal');
             $table->timestamps();
         });

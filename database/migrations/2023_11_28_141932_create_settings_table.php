@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('telepon')->nullable();
             $table->string('path_logo')->nullable();
-            $table->tinyInteger('tipe_nota');
             $table->timestamps();
         });
     }

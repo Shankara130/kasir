@@ -14,7 +14,7 @@ class DetailPenjualan extends Model
     protected $guarded = [];
 
     public function produk(){
-        return $this->belongsTo(produk::class,'id_produk', 'id_produk');
+        return $this->hasOne(produk::class,'id_produk', 'id_produk');
     }
 
     const CREATED_AT = 'created_at';

@@ -90,6 +90,11 @@
         });
     });
 
+    function hideModalForm() {
+            $('#modal-form').modal('hide');
+            $('#modal-form form')[0].reset();
+        }
+
     function updatePeriode() {
         $('#modal-form').modal('show');
     }

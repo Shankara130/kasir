@@ -1,16 +1,16 @@
 @extends('layout/app-layout')
 @section('title')
-<title>Produk</title>
+    <title>Produk</title>
 @endsection
 @section('sisipancss')
 @endsection
 @section('sisipanjs')
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 @endsection
 @section('breadcrumb')
     <div class="page-header">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="box-body table-responsive">
-                    <form action="" method="post" class="form-produk">
+                    <form action="" method="post" class="form-produk" enctype="multipart/form-data">
                         @csrf
                         <table class="table table-stiped table-bordered">
                             <thead>
@@ -133,6 +133,30 @@
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('post');
             $('#modal-form [name=nama_produk]').focus();
+
+            $('#modal-form form').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $('#modal-form').modal('hide');
+                        table.ajax.reload();
+                    }
+                });
+
+            });
+        }
+
+        function hideModalForm() {
+            $('#modal-form').modal('hide');
+            $('#modal-form form')[0].reset();
         }
 
         function editForm(url) {
@@ -143,6 +167,25 @@
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('put');
             $('#modal-form [name=nama_produk]').focus();
+
+            $('#modal-form form').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $('#modal-form').modal('hide');
+                        table.ajax.reload();
+                    }
+                });
+
+            });
 
             $.get(url)
                 .done((response) => {
@@ -189,6 +232,5 @@
                 return;
             }
         }
-        
     </script>
 @endpush

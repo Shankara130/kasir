@@ -11,7 +11,7 @@ class produk extends Model
 
     protected $table = 'produk';
     protected $primaryKey = 'id_produk';
-    protected $guarded = ['stok'];
+    protected $guarded = [];
 
     public function kategori()
     {

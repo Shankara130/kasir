@@ -2,13 +2,14 @@
     <div class="navbar-content scroll-div ">
         <div class="">
             <div class="main-menu-header">
-                <img class="img-radius" src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="User-Profile-Image">
+                <img class="img-radius" src="{{ url(auth()->user()->foto ?? '') }}" alt="User-Profile-Image">
                 <div class="user-details">
                     <div id="more-details">Halo, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></div>
                 </div>
             </div>
             <div class="collapse" id="nav-user-link">
                 <ul class="list-unstyled">
+                    <li class="list-group-item"><a href="{{ route('user.profil') }}"><i class="feather icon-user m-r-5"></i>Profil</a></li>
                     <li class="list-group-item"><a href="#" onclick="$('#logout-form').submit()"><i class="feather icon-log-out m-r-5"></i>Logout</a></li>
                 </ul>
             </div>
@@ -23,13 +24,16 @@
                 <a href="{{route('dashboard')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
+                <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan Pendapatan</span></a>
             </li>
             <li class="nav-item">
-                <a href="{{route('laporan.produk.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan</span></a>
+                <a href="{{route('laporan.produk.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan Penjualan Produk</span></a>
             </li>
             <li class="nav-item">
                 <a href="{{route('penjualan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Penjualan</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('setting.index') }}" class="nav-link"><span class="pcoded-micon"><i class="fa fa-cogs"></i></span><span class="pcoded-mtext">Pengaturan</span></a>
             </li>   
             @else
             <li class="nav-item">

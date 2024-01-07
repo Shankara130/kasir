@@ -10,8 +10,10 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LaporanProdukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\DiskonController;
+use App\Http\Controllers\UserController;
 use App\Models\DetailPenjualan;
 use App\Models\Penjualan;
 use Illuminate\Support\Facades\Route;
@@ -46,14 +48,21 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDF'])->name('laporan.export_pdf');
 
-        Route::get('/laporan-produk', [LaporanProdukController::class,'index'])->name('laporan.produk.index');
+        Route::get('/laporan-produk', [LaporanProdukController::class, 'index'])->name('laporan.produk.index');
         Route::get('/laporan-produk/data/{bulan}/{tahun}', [LaporanProdukController::class, 'data'])->name('laporan.produk.data');
+
+        Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
+        Route::get('/setting/first', [SettingController::class, 'show'])->name('setting.show');
+        Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
     });
     Route::group(['middleware' => 'level:1,2'], function () {
         Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
         Route::get('/penjualan/{id}', [PenjualanController::class, 'show'])->name('penjualan.show');
         Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+
+        Route::get('/profil', [UserController::class, 'profil'])->name('user.profil');
+        Route::post('/profil', [UserController::class, 'updateProfil'])->name('user.update_profil');
     });
     Route::group(['middleware' => 'level:2'], function () {
         Route::get('/admin', [HomeController::class, 'index'])->name('admin');
