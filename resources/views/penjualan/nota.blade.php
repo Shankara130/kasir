@@ -76,9 +76,9 @@
                 <td colspan="3">{{ $item->produk->nama_produk }}</td>
             </tr>
             <tr>
-                <td>{{ $item->jumlah }} x {{ format_angka($item->harga_jual) }}</td>
+                <td>{{ $item->jumlah }} x {{ format_angka($item->harga) }}</td>
                 <td></td>
-                <td class="text-right">{{ format_angka($item->jumlah * $item->harga_jual) }}</td>
+                <td class="text-right">{{ format_angka($item->jumlah * $item->harga) }}</td>
             </tr>
         @endforeach
     </table>
@@ -95,7 +95,7 @@
         </tr>
         <tr>
             <td>Diskon:</td>
-            <td class="text-right">{{ format_angka($penjualan->diskon) }}</td>
+            <td class="text-right">{{ format_angka($penjualan->diskon) }}%</td>
         </tr>
         <tr>
             <td>Total Bayar:</td>

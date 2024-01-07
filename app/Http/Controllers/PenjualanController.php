@@ -67,6 +67,7 @@ class PenjualanController extends Controller
         $penjualan->total_harga = 0;
         $penjualan->diskon = 0;
         $penjualan->bayar = 0;
+        $penjualan->diterima = 0;
         $penjualan->id_user = auth()->id();
         $penjualan->save();
 
@@ -84,7 +85,12 @@ class PenjualanController extends Controller
             $penjualan->total_harga = $request->total_harga;
             $penjualan->diskon = $request->diskon;
             $penjualan->bayar = $request->bayar;
+            $penjualan->diterima = $request->diterima;
             $penjualan->update();
+
+            if($penjualan->diterima < $penjualan->bayar) {
+                return back()->withErrors(['Pembayaran Kurang']);
+            }
 
             $cart = session()->get('cart', []);
             foreach ($cart as $id => $details) {

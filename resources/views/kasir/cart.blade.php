@@ -108,6 +108,13 @@
                     <p>Are you sure you want to place this order?</p>
                     <p>Total Harga: Rp. {{ format_angka($total) }}</p>
                 </div>
+                @if (isset($errors) && $errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                    </div>
+                @endif
                 <form action="{{ route('transaksi.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="id_penjualan" value="{{ $id_penjualan }}">
@@ -137,7 +144,7 @@
                         <div class="row mb-3">
                             <label for="diterima" class="col-sm-2 col-form-label">Diterima</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="diterima" required>
+                                <input type="text" class="form-control" id="diterima" name="diterima" required>
                             </div>
                         </div>
                         <div class="row mb-3">
