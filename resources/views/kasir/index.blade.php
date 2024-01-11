@@ -17,31 +17,51 @@
             length: counterElements.length
         }, () => 0);
 
+        const searchInput = document.getElementById('searchInput');
+
+        searchInput.addEventListener('keyup', function() {
+
+            const searchTerm = searchInput.value.toLowerCase();
+
+            const produkCards = document.querySelectorAll('.produk-card');
+
+            produkCards.forEach(card => {
+
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+
+            });
+
+        });
+
         function addToCart(productId, index) {
             const quantity = counterValues[index];
-            const url = `{{ route('addproduct.to.cart', ['id' => '__productId__']) }}`.replace('__productId__', productId);
 
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        quantity: quantity
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Berhasil ditambahkan ke keranjang');
-                    } else {
-                        alert('Gagal menambahkan ke keranjang');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `{{ route('addproduct.to.cart', ['id' => '__productId__']) }}`.replace('__productId__',
+                productId);
+
+            const input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = '_token';
+            input1.value = '{{ csrf_token() }}';
+
+            const input2 = document.createElement('input');
+            input2.type = 'hidden';
+            input2.name = 'quantity';
+            input2.value = quantity;
+
+            form.appendChild(input1);
+            form.appendChild(input2);
+
+            document.body.appendChild(form);
+            form.submit();
         }
 
         function setnamaproduk(index) {
@@ -49,9 +69,23 @@
             setNamaProduks[index].textContent = namaproduk;
         }
 
+        function updateCounterInput(input, index) {
+            let value = parseInt(input.value);
+            if (isNaN(value)) {
+                value = 0;
+            }
+            counterValues[index] = value;
+            updateCounter(index);
+        }
+
         function updateCounter(index) {
             counterElements[index].textContent = counterValues[index];
+
+            document.querySelectorAll(".counter-input")[index].value = counterValues[index];
+
             show(index);
+
+            document.querySelectorAll(".counter-input")[index].value = '';
         }
 
         function showHarga(index) {
@@ -140,9 +174,10 @@
 @endsection
 
 @section('mainpage')
+Nama Produk: <input class="col-md-3 ml-2 mb-4" type="text" id="searchInput" placeholder="Cari produk...">
     <div class="row">
         @foreach ($produk as $index => $produk)
-            <div class="col-md-3 col-6 mb-4">
+            <div class="col-md-3 col-6 mb-4 produk-card">
                 <div class="card">
                     @if ($produk->foto_produk)
                         <img src="{{ asset('storage/images/' . $produk->foto_produk) }}" alt="">
@@ -154,11 +189,14 @@
                         <p class="card-text"><strong>Harga: </strong> Rp. {{ format_angka($produk->harga) }}</p>
                         <div class="d-flex justify-content-center">
                             <button class="fw-bold btn btn-primary w-25 decrease">-</button>
-                            <span class="mx-2 counter" id="counter{{ $produk->id_produk }}">0</span>
+                            <input type="text" class="form-control counter-input text-center" style="width: 60px;"
+                                onkeyup="updateCounterInput(this, {{ $index }})" value="0">
+                            <span class="mx-2 counter d-none" id="counter{{ $produk->id_produk }}">0</span>
                             <button class="fw-bold btn btn-primary w-25 increase"">+</button>
                         </div> <br>
                         <div class="d-flex justify-content-center">
-                            <p class="btn-holder"><a href="#" onclick="addToCart('{{ $produk->id_produk }}',  '{{ $index }}')"
+                            <p class="btn-holder"><a href="#"
+                                    onclick="addToCart('{{ $produk->id_produk }}',  '{{ $index }}')"
                                     class="btn btn-outline-danger">Tambahkan ke keranjang</a>
                             </p>
                         </div>

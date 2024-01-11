@@ -123,10 +123,10 @@
                     <input type="hidden" name="id_user" value="1">
                     <div class="col">
                         <div class="row mb-3">
-                            <label for="total_diskon">Diskon</label>
+                            <label for="total_diskon" class="col-sm-2">Diskon</label>
                             <div class="col-sm-10">
                                 <select class="form-select" id="total_diskon" name="diskon">
-                                    <option selected>Pilih Diskon</option>
+                                    <option selected value="0">Pilih Diskon</option>
                                     @foreach ($diskon as $diskon)
                                         <option value="{{ $diskon->total_diskon }}">{{ $diskon->nama_diskon }}</option>
                                     @endforeach
@@ -184,11 +184,11 @@
             };
 
             diskonSelected.addEventListener('change', function() {
-                const selectedDiskon = this.value;
                 let bayarValue;
+                const selectedDiskon = this.value;
 
-                if (!selectedDiskon) {
-                    bayarValue = formatPrice(totalValue);
+                if (this.options[this.selectedIndex].text === "Pilih Diskon") {
+                    selectedDiskon = 0;
                 } else {
                     const diskonPercentage = selectedDiskon / 100;
                     const diskon = totalValue * diskonPercentage;
