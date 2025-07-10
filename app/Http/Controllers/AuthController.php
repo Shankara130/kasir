@@ -34,7 +34,7 @@ class AuthController extends Controller
                 return redirect('/admin');
             }
         } else {
-            return redirect('')->withErrors('Email dan Password yang dimasukkan tidak sesuai')->withInput();
+            return back()->withErrors('Email dan/atau Password yang dimasukkan tidak sesuai')->withInput();
         }
     }
 }

@@ -14,7 +14,9 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('setting.index');
+        $setting = Setting::first();
+
+        return view('setting.index', compact('setting'));
     }
 
     /**
@@ -52,9 +54,14 @@ class SettingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Setting $setting)
+    public function update(Request $request)
     {
         $setting = Setting::first();
+
+        if (!$setting) {
+            $setting = new Setting();
+        }
+
         $setting->nama_perusahaan = $request->nama_perusahaan;
         $setting->telepon = $request->telepon;
         $setting->alamat = $request->alamat;
@@ -67,10 +74,11 @@ class SettingController extends Controller
             $setting->path_logo = "/img/$nama";
         }
 
-        $setting->update();
+        $setting->save();
 
-        return response()->json('Data berhasil disimpan', 200);
+        return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui');
     }
+
 
     /**
      * Remove the specified resource from storage.

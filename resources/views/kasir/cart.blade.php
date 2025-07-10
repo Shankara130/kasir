@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="row justify-content-end">
-                <a href="{{ route('transaksi.cart') }}" class="btn btn-outline-light">
+                <a href="{{ route('transaksi.cart') }}" id="cartLink" class="btn btn-outline-light">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Keranjang <span
                         class="badge bg-danger">{{ count((array) session('cart')) }}</span>
                 </a>

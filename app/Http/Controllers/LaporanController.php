@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailPenjualan;
 use App\Models\Penjualan;
+use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,7 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
+        $setting = Setting::first();
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
 
@@ -19,7 +21,7 @@ class LaporanController extends Controller
             $tanggalAkhir = $request->tanggal_akhir;
         }
 
-        return view('laporan.index', compact('tanggalAwal', 'tanggalAkhir'));
+        return view('laporan.index', compact('tanggalAwal', 'tanggalAkhir', 'setting'));
     }
     public function getData($awal, $akhir)
     {

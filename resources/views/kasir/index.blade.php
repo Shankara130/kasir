@@ -1,4 +1,7 @@
 @extends('layout/app-layout')
+@section('title')
+    <title>Transaksi</title>
+@endsection
 
 @section('sisipancss')
 @endsection
@@ -180,7 +183,7 @@ Nama Produk: <input class="col-md-3 ml-2 mb-4" type="text" id="searchInput" plac
             <div class="col-md-3 col-6 mb-4 produk-card">
                 <div class="card">
                     @if ($produk->foto_produk)
-                        <img src="{{ asset('storage/images/' . $produk->foto_produk) }}" alt="">
+                        <img src="{{ asset('images/produk/' . $produk->foto_produk) }}" alt="">
                     @else
                         <img src="{{ asset('assets/images/produk/default.png') }}" alt="">
                     @endif

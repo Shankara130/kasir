@@ -16,14 +16,14 @@ class DetailPenjualanController extends Controller
      */
     public function index()
     {
-        
+        $setting = Setting::first();
         $produk = produk::orderBy('nama_produk')->get();
         $diskon = Diskon::orderBy('nama_diskon')->get();
 
         if ($id_penjualan = session('id_penjualan')) {
             $penjualan = Penjualan::find($id_penjualan);
 
-            return view('kasir.cart', compact('produk', 'diskon', 'id_penjualan', 'penjualan'));
+            return view('kasir.cart', compact('produk', 'diskon', 'id_penjualan', 'penjualan', 'setting'));
         }
 
     }

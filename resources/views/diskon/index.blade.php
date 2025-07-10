@@ -1,4 +1,7 @@
 @extends('layout/app-layout')
+@section('title')
+    <title>Diskon</title>
+@endsection
 
 @section('sisipancss')
 @endsection
@@ -127,6 +130,30 @@
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('post');
             $('#modal-form [name=nama_diskon]').focus();
+
+            $('#modal-form form').off('submit').on('submit', function(e) {
+                e.preventDefault();
+                $(this).find('button[type=submit]').attr('disabled', true);
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                       if (response.success) {
+                            alert(response.message);
+                            $('#modal-form').modal('hide');
+                            table.ajax.reload();
+                        } else {
+                            alert('Terjadi kesalahan!');
+                        }
+                    }
+                });
+
+            });
         }
 
         function hideModalForm() {
@@ -142,6 +169,30 @@
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('put');
             $('#modal-form [name=nama_diskon]').focus();
+
+            $('#modal-form form').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#modal-form').modal('hide');
+                            table.ajax.reload();
+                        } else {
+                            alert('Terjadi kesalahan!');
+                        }
+                    }
+                });
+
+            });
 
             $.get(url)
                 .done((response) => {

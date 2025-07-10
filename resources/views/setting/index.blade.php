@@ -20,6 +20,12 @@
         </div>
     </div>
 </div>
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 @endsection
 
 @section('mainpage')
@@ -116,7 +122,6 @@
                     $('[name=nama_perusahaan]').val(response.nama_perusahaan);
                     $('[name=telepon]').val(response.telepon);
                     $('[name=alamat]').val(response.alamat);
-                    $('title').text(response.nama_perusahaan + ' | Pengaturan');
 
                     let words = response.nama_perusahaan.split(' ');
                     let word = '';

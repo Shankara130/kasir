@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\produk;
 use Illuminate\Http\Request;
 use App\Models\Diskon;
+use App\Models\Setting;
 
 class DiskonController extends Controller
 {
 
     public function index()
     {
+        $setting = Setting::first();
         $produk = produk::all();
         $diskon = Diskon::all();
         $data = [
             'diskon'=>'diskon'
         ];
-        return view('diskon.index', compact('diskon', 'produk'));
+        return view('diskon.index', compact('diskon', 'produk', 'setting'));
     }
 
     public function data()
@@ -53,7 +55,11 @@ class DiskonController extends Controller
         $diskon->total_diskon = $request->total_diskon;
         $diskon->save();
 
-        return redirect('/diskon');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan!',
+            'data' => $diskon
+        ]);
     }
 
     public function show($id)
@@ -68,7 +74,11 @@ class DiskonController extends Controller
         $diskon = Diskon::find($id);
         $diskon->update($request->all());
 
-        return response()->json('Data berhasil diubah', 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diubah!',
+            'data' => $diskon
+        ]);
     }
 
     /**

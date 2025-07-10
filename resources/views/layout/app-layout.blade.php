@@ -13,14 +13,9 @@
     <meta name="author" content="Phoenixcoded" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon icon -->
-    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('img/' . $setting->path_logo) }}" type="image/x-icon">
     <!-- vendor css -->
     <link rel="stylesheet"   href="{{ asset('assets/css/style.css') }}">
-
-
-
-
-
 </head>
 
 <body class="">
@@ -38,15 +33,9 @@
     <!-- [ navigation menu ] end -->
     <!-- [ Header ] start -->
     <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
-
         @include('layout.header')
-
-
-
     </header>
     <!-- [ Header ] end -->
-
-
 
     <!-- [ Main Content ] start -->
     <div class="pcoded-main-container">
@@ -68,7 +57,6 @@
     @yield('sisipanjs')
     <!-- Apex Chart -->
     {{-- <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script> --}}
-
 
     <!-- custom-chart js -->
     {{-- <script src="{{ asset('assets/js/pages/dashboard-main.js') }}"></script> --}}

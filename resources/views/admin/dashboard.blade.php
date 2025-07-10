@@ -29,7 +29,7 @@
 @endsection
 
 @section('mainpage')
-<div class="row">
+<div class="row container">
     <div class="col-lg-12">
         <div class="box">
             <div class="box-header with-border">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailPenjualan;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -10,6 +11,7 @@ class LaporanProdukController extends Controller
 {
     public function index(Request $request)
     {
+        $setting = Setting::first();
         $bulan = date('m');
         $tahun = date('Y');
 
@@ -21,7 +23,7 @@ class LaporanProdukController extends Controller
         $namaBulan = $this->getNamaBulanIndonesia($bulan);
         // dd(compact("bulan","tahun"));
 
-        return view('laporan.produk', compact('namaBulan', 'bulan' ,'tahun'));
+        return view('laporan.produk', compact('namaBulan', 'bulan' ,'tahun', 'setting'));
     }
 
     private function getNamaBulanIndonesia($bulan)

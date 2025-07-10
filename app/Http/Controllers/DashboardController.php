@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\Penjualan;
 use App\Models\produk;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        $setting = Setting::first();
         $tanggal_awal = date('Y-m-01');
         $tanggal_akhir = date('Y-m-d');
 
@@ -29,6 +31,6 @@ class DashboardController extends Controller
 
         $tanggal_awal = date('Y-m-01');
 
-        return view('admin.dashboard', compact('tanggal_awal', 'tanggal_akhir', 'data_tanggal', 'data_pendapatan'));
+        return view('admin.dashboard', compact('tanggal_awal', 'tanggal_akhir', 'data_tanggal', 'data_pendapatan', 'setting'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\produk;
+use App\Models\Setting;
 use App\Models\Stok;
 use Illuminate\Http\Request;
 
@@ -19,10 +20,11 @@ class StokController extends Controller
      */
     public function index()
     {
+        $setting = Setting::first();
         $stok = Stok::all();
         $produk = $this->models->all();
 
-        return view('stok.index', compact('stok', 'produk'));
+        return view('stok.index', compact('stok', 'produk', 'setting'));
     }
 
     public function data()
@@ -81,7 +83,11 @@ class StokController extends Controller
             $stok->save();
         }
 
-        return redirect('/stok');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan!',
+            'data' => $stok ?? $existingStok
+        ]);
     }
 
     /**
@@ -102,7 +108,11 @@ class StokController extends Controller
         $stok = Stok::find($id);
         $stok->update($request->stok_in);
 
-        return response()->json('Data berhasil diubah', 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diubah!',
+            'data' => $stok
+        ]);
     }
 
     /**

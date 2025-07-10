@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
-use App\Models\produk;
-use App\Models\Diskon;
+use App\Models\Produk;
+use App\Models\Setting;
 use App\Models\Stok;
 use Illuminate\Http\Request;
 
@@ -15,11 +15,12 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = produk::all();
+        $setting = Setting::first();
+        $produk = Produk::all();
         $stok = Stok::all();
         $kategori = Kategori::all();
 
-        return view('produk.index', compact('kategori', 'produk', 'stok'));
+        return view('produk.index', compact('kategori', 'produk', 'stok', 'setting'));
     }
 
     public function addProducttoCart(Request $request, $id)
@@ -66,7 +67,7 @@ class ProdukController extends Controller
 
     public function data()
     {
-        $produk = produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
+        $produk = Produk::leftJoin('kategori', 'kategori.id_kategori', 'produk.id_kategori')
             ->select('produk.*', 'nama_kategori')
             ->get();
 
@@ -107,24 +108,33 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        // Ambil file yang diupload
+        $request->validate([
+            'id_kategori' => 'required',
+            'nama_produk' => 'required|unique:produk,nama_produk',
+            'harga' => 'required|numeric',
+            'foto_produk' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
         $file = $request->file('foto_produk');
 
-        // Pindahkan file ke folder penyimpanan
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('public/images', $fileName);
+        if ($file) {
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/images/produk'), $fileName);
+        }
 
-        $produk = new produk;
+        $produk = new Produk();
         $produk->id_kategori = $request->id_kategori;
         $produk->nama_produk = $request->nama_produk;
         $produk->harga = $request->harga;
-        $produk->foto_produk = $fileName;
+        $produk->foto_produk = $fileName ?? null;
         $produk->save();
 
-        return response()->json(['success' => 'Data berhasil disimpan']);
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan!',
+            'data' => $produk
+        ]);
     }
-
 
     /**
      * Display the specified resource.
@@ -155,7 +165,7 @@ class ProdukController extends Controller
         if ($file) {
             // Jika ada file upload, pindahkan ke folder penyimpanan
             $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/images', $fileName);
+            $file->move(public_path('/images/produk'), $fileName);
         }
 
         // Ambil data produk yg akan diubah
@@ -165,13 +175,16 @@ class ProdukController extends Controller
         $produk->nama_produk = $request->nama_produk;
         $produk->harga = $request->harga;
         if ($file) {
-            // Jika ada file upload, update nama file
             $produk->foto_produk = $fileName;
         }
 
-        $produk->save();
+        $produk->update();
 
-        return response()->json(['success' => 'Data berhasil diubah']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diubah!',
+            'data' => $produk
+        ]);
     }
 
 

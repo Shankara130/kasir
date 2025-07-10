@@ -1,8 +1,8 @@
-<div class="navbar-wrapper ">
+<div class="navbar-wrapper">
     <div class="navbar-content scroll-div ">
         <div class="">
             <div class="main-menu-header">
-                <img class="img-radius" src="{{ url(auth()->user()->foto ?? '') }}" alt="User-Profile-Image">
+                <img class="img-radius" src="{{ url(auth()->user()->foto ?? asset('images/default.jpg')) }}" alt="User-Profile-Image">
                 <div class="user-details">
                     <div id="more-details">Halo, {{ auth()->user()->name }} <i class="fa fa-caret-down"></i></div>
                 </div>
@@ -22,6 +22,9 @@
             @if (auth()->user()->level == 1)
             <li class="nav-item">
                 <a href="{{route('dashboard')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('user.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User</span></a>
             </li>
             <li class="nav-item">
                 <a href="{{route('laporan.index')}}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file"></i></span><span class="pcoded-mtext">Laporan Pendapatan</span></a>

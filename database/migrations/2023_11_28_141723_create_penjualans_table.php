@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('total_harga');
             $table->integer('diskon')->nullable();
             $table->bigInteger('bayar');
+            $table->bigInteger('diterima');
             $table->integer('id_user');
             $table->timestamps();
         });

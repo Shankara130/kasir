@@ -16,7 +16,9 @@ class PenjualanController extends Controller
 
     public function index()
     {
-        return view('penjualan.index');
+        $setting = Setting::first();
+        
+        return view('penjualan.index', compact('setting'));
     }
 
     public function data()

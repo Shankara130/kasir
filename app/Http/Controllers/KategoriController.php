@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -15,9 +16,10 @@ class KategoriController extends Controller
 
     public function index()
     {
+        $setting = Setting::first();
         $kategori = Kategori::all();
 
-        return view('kategori.index', compact('kategori'));
+        return view('kategori.index', compact('kategori', 'setting'));
     }
 
     public function data()
@@ -56,7 +58,11 @@ class KategoriController extends Controller
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
 
-        return response()->json('Data berhasil disimpan', 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan!',
+            'data' => $kategori
+        ]);
     }
 
     /**
@@ -86,7 +92,11 @@ class KategoriController extends Controller
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->update();
         
-        return response()->json('Data berhasil diubah', 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diubah!',
+            'data' => $kategori
+        ]);
     }
 
     /**

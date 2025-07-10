@@ -1,6 +1,6 @@
 @extends('layout/app-layout')
 @section('title')
-    <title>Produk</title>
+    <title>User</title>
 @endsection
 @section('sisipancss')
 @endsection
@@ -21,8 +21,9 @@
                         <h5 class="m-b-10">Data produk</h5>
                     </div>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('admin') }}"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="#!">Data Produk</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="feather icon-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Data User</a></li>
                     </ul>
                 </div>
             </div>
@@ -36,24 +37,19 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="btn-group">
-                        <button onclick="addForm('{{ route('produk.store') }}')" class="btn btn-success btn-xs btn-flat"><i
+                        <button onclick="addForm('{{ route('user.store') }}')" class="btn btn-success btn-xs btn-flat"><i
                                 class="fa fa-plus-circle"></i> Tambah</button>
-                        <button onclick="deleteSelected('{{ route('produk.delete_selected') }}')"
-                            class="btn btn-danger btn-xs btn-flat"><i class="fa fa-trash"></i> Hapus</button>
                     </div>
                 </div>
                 <div class="box-body table-responsive">
-                    <form action="" method="post" class="form-produk" enctype="multipart/form-data">
+                    <form action="" method="post" class="form-user" enctype="multipart/form-data">
                         @csrf
                         <table class="table table-stiped table-bordered">
                             <thead>
-                                <th width="5%">
-                                    <input type="checkbox" name="select_all" id="select_all">
-                                </th>
                                 <th width="5%">No</th>
                                 <th>Nama</th>
-                                <th>Kategori</th>
-                                <th>Harga</th>
+                                <th>Email</th>
+                                <th>Role</th>
                                 <th width="15%"><i class="fa fa-cog"></i></th>
                             </thead>
                         </table>
@@ -63,7 +59,7 @@
         </div>
     </div>
 
-    @includeIf('produk.form')
+    @includeIf('user.form')
 @endsection
 
 @push('scripts')
@@ -77,26 +73,21 @@
                 serverSide: true,
                 autoWidth: false,
                 ajax: {
-                    url: '{{ route('produk.data') }}',
+                    url: '{{ route('user.data') }}',
                 },
                 columns: [{
-                        data: 'select_all',
-                        searchable: false,
-                        sortable: false
-                    },
-                    {
                         data: 'DT_RowIndex',
                         searchable: false,
                         sortable: false
                     },
                     {
-                        data: 'nama_produk'
+                        data: 'name'
                     },
                     {
-                        data: 'nama_kategori'
+                        data: 'email'
                     },
                     {
-                        data: 'harga'
+                        data: 'level'
                     },
                     {
                         data: 'aksi',
@@ -106,37 +97,66 @@
                 ]
             });
 
-            $('#modal-form form').validate({
+            // VALIDASI SIMPAN
+            $('#form-store').validate({
                 submitHandler: function(form) {
-                    $.post($(form).attr('action'), $(form).serialize())
-                        .done((response) => {
+                    $.ajax({
+                        url: $(form).attr('action'),
+                        method: 'POST',
+                        data: new FormData(form),
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            alert('Data berhasil disimpan!');
                             $('#modal-form').modal('hide');
                             table.ajax.reload();
-                        })
-                        .fail((errors) => {
-                            alert('Tidak dapat menyimpan data');
-                            return;
-                        });
+                        },
+                        error: function(xhr) {
+                            alert('Tidak dapat menyimpan data.');
+                            console.log(xhr.responseText);
+                        }
+                    });
                 }
             });
 
-            $('[name=select_all]').on('click', function() {
-                $(':checkbox').prop('checked', this.checked);
+            // VALIDASI UPDATE
+            $('#form-edit').validate({
+                submitHandler: function(form) {
+                    $.ajax({
+                        url: $(form).attr('action'),
+                        method: 'POST', // Tetap POST, Laravel baca _method=PUT
+                        data: new FormData(form),
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            alert('Data berhasil diupdate!');
+                            $('#modal-form').modal('hide');
+                            table.ajax.reload();
+                        },
+                        error: function(xhr) {
+                            alert('Tidak dapat mengupdate data.');
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
             });
         });
 
         function addForm(url) {
             $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Tambah Produk');
+            $('#modal-form .modal-title').text('Tambah User');
 
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('post');
-            $('#modal-form [name=nama_produk]').focus();
+            $('#form-store').show();
+            $('#form-edit').hide();
 
-            $('#modal-form form').off('submit').on('submit', function(e) {
+            $('#form-store')[0].reset();
+            $('#form-store').attr('action', url);
+            $('#form-store [name=_method]').val('post');
+            $('#form-store [name=name]').focus();
+
+            $('##form-store').on('submit', function(e) {
                 e.preventDefault();
-                $(this).find('button[type=submit]').attr('disabled', true);
+
                 var formData = new FormData(this);
 
                 $.ajax({
@@ -146,13 +166,8 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                       if (response.success) {
-                            alert(response.message);
-                            $('#modal-form').modal('hide');
-                            table.ajax.reload();
-                        } else {
-                            alert('Terjadi kesalahan!');
-                        }
+                        $('#modal-form').modal('hide');
+                        table.ajax.reload();
                     }
                 });
 
@@ -166,14 +181,17 @@
 
         function editForm(url) {
             $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Edit Produk');
+            $('#modal-form .modal-title').text('Edit User');
 
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('put');
-            $('#modal-form [name=nama_produk]').focus();
+            $('#form-store').hide();
+            $('#form-edit').show();
 
-            $('#modal-form form').on('submit', function(e) {
+            $('#form-edit')[0].reset();
+            $('#form-edit').attr('action', url);
+            $('#form-edit [name=_method]').val('put');
+            $('#form-edit [name=name]').focus();
+
+            $('#form-edit').on('submit', function(e) {
                 e.preventDefault();
 
                 var formData = new FormData(this);
@@ -185,13 +203,8 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            $('#modal-form').modal('hide');
-                            table.ajax.reload();
-                        } else {
-                            alert('Terjadi kesalahan!');
-                        }
+                        $('#modal-form').modal('hide');
+                        table.ajax.reload();
                     }
                 });
 
@@ -199,13 +212,12 @@
 
             $.get(url)
                 .done((response) => {
-                    $('#modal-form [name=nama_produk]').val(response.nama_produk);
-                    $('#modal-form [name=id_kategori]').val(response.id_kategori);
-                    $('#modal-form [name=harga]').val(response.harga);
+                    $('#form-edit [name=name]').val(response.name);
+                    $('#form-edit [name=email]').val(response.email);
+                    $('#form-edit [name=level]').val(response.level);
                 })
-                .fail((errors) => {
+                .fail(() => {
                     alert('Tidak dapat menampilkan data');
-                    return;
                 });
         }
 

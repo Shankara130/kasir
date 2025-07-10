@@ -20693,6 +20693,7 @@ pre[class*=language-]:before {
     margin-top: 50px;
     border-radius: 0 6px 0 0;
     top: 0;
+    bottom: 0;
     background: #101b33;
     color: #97a7c1;
 }
